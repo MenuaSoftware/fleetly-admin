@@ -101,3 +101,11 @@ export interface IncidentSummary {
   locationLng: number | null;
   capturedAt: string;
 }
+
+export interface DocumentTypeSummary {
+  id: string;
+  subcoId: string | null;
+  attachedTo: "vehicle" | "driver";
+  name: string;
+  alertWindowDays: number;
+}

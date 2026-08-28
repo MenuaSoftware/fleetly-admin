@@ -17,6 +17,11 @@ const NAV_LINKS = [
   { href: "/devices", label: "Devices" },
 ] as const;
 
+const GENERAL_ADMIN_NAV_LINKS = [
+  { href: "/staff", label: "Staff" },
+  { href: "/document-types", label: "Document types" },
+] as const;
+
 export function AppHeader({ email, isGeneralAdmin }: AppHeaderProps) {
   const pathname = usePathname();
 
@@ -38,16 +43,18 @@ export function AppHeader({ email, isGeneralAdmin }: AppHeaderProps) {
               {label}
             </Link>
           ))}
-          {isGeneralAdmin && (
-            <Link
-              href="/staff"
-              className={`text-sm font-medium transition-colors ${
-                pathname.startsWith("/staff") ? "text-accent" : "text-ink-2 hover:text-ink"
-              }`}
-            >
-              Staff
-            </Link>
-          )}
+          {isGeneralAdmin &&
+            GENERAL_ADMIN_NAV_LINKS.map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`text-sm font-medium transition-colors ${
+                  pathname.startsWith(href) ? "text-accent" : "text-ink-2 hover:text-ink"
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
         </nav>
       </div>
       <div className="flex items-center gap-4">
