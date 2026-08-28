@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
 import { StaffMe, TripDetail } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
+import { ForceCloseTripForm } from "@/components/force-close-trip-form";
 import { TripPhotoViewer } from "@/components/trip-photo-viewer";
 
 const STATE_LABEL: Record<TripDetail["state"], string> = {
@@ -45,9 +46,18 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
             <h1 className="font-mono text-lg font-semibold text-ink">{trip.vehiclePlate ?? "Unknown vehicle"}</h1>
             <p className="text-sm text-ink-3">{trip.driverName ?? "Unknown driver"}</p>
           </div>
-          <span className="rounded-full bg-wash px-2.5 py-1 font-mono text-xs text-ink-2">
-            {STATE_LABEL[trip.state]}
-          </span>
+          <div className="text-right">
+            <span
+              className={`rounded-full px-2.5 py-1 font-mono text-xs ${
+                trip.state === "force_closed" ? "bg-warn-bg text-warn" : "bg-wash text-ink-2"
+              }`}
+            >
+              {STATE_LABEL[trip.state]}
+            </span>
+            {trip.closureReasonCode && (
+              <p className="mt-1 text-xs text-ink-3">{trip.closureReasonCode.replaceAll("_", " ")}</p>
+            )}
+          </div>
         </div>
 
         <div className="mb-6 grid grid-cols-2 gap-3">
@@ -104,7 +114,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
         )}
 
         <h2 className="mb-2 text-sm font-semibold text-ink">Confirmations</h2>
-        <div className="overflow-hidden rounded-2xl border border-line bg-paper">
+        <div className="mb-6 overflow-hidden rounded-2xl border border-line bg-paper">
           <ul>
             {trip.confirmations.map((c, i) => (
               <li
@@ -122,6 +132,8 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
             ))}
           </ul>
         </div>
+
+        {trip.state === "active" && <ForceCloseTripForm tripId={trip.id} />}
       </div>
     </main>
   );
