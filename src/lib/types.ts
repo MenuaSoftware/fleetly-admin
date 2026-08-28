@@ -111,6 +111,14 @@ export interface IncidentSummary {
   capturedAt: string;
 }
 
+export interface DocumentTypeSummary {
+  id: string;
+  subcoId: string | null;
+  attachedTo: "vehicle" | "driver";
+  name: string;
+  alertWindowDays: number;
+}
+
 export interface RetentionPolicySummary {
   dataType: string;
   retentionDays: number;
@@ -122,10 +130,12 @@ export interface RetentionEnforcementResult {
   affected: number;
 }
 
-export interface DocumentTypeSummary {
+export interface NotificationSummary {
   id: string;
-  subcoId: string | null;
-  attachedTo: "vehicle" | "driver";
-  name: string;
-  alertWindowDays: number;
+  type: "incident" | "document_expiry";
+  entityType: string;
+  entityId: string;
+  message: string;
+  readAt: string | null;
+  createdAt: string;
 }
