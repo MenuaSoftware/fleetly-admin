@@ -20,6 +20,7 @@ const NAV_LINKS = [
 const GENERAL_ADMIN_NAV_LINKS = [
   { href: "/staff", label: "Staff" },
   { href: "/document-types", label: "Document types" },
+  { href: "/retention", label: "Retention" },
 ] as const;
 
 export function AppHeader({ email, isGeneralAdmin }: AppHeaderProps) {

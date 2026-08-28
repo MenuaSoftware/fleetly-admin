@@ -111,6 +111,17 @@ export interface IncidentSummary {
   capturedAt: string;
 }
 
+export interface RetentionPolicySummary {
+  dataType: string;
+  retentionDays: number;
+  updatedAt: string;
+}
+
+export interface RetentionEnforcementResult {
+  dataType: string;
+  affected: number;
+}
+
 export interface DocumentTypeSummary {
   id: string;
   subcoId: string | null;
