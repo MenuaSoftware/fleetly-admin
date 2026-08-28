@@ -11,6 +11,7 @@ interface AppHeaderProps {
 
 const NAV_LINKS = [
   { href: "/trips", label: "Trips" },
+  { href: "/incidents", label: "Incidents" },
   { href: "/drivers", label: "Drivers" },
   { href: "/vehicles", label: "Vehicles" },
   { href: "/devices", label: "Devices" },

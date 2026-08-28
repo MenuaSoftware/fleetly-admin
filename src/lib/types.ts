@@ -87,3 +87,17 @@ export interface TripDetail extends TripSummary {
   photos: TripPhotoSummary[];
   damage: TripDamageSummary[];
 }
+
+export interface IncidentSummary {
+  id: string;
+  type: "new_damage" | "breakdown";
+  driverId: string;
+  driverName: string | null;
+  vehicleId: string;
+  vehiclePlate: string | null;
+  tripId: string | null;
+  note: string;
+  locationLat: number | null;
+  locationLng: number | null;
+  capturedAt: string;
+}
