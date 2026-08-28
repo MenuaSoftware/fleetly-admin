@@ -34,3 +34,11 @@ export interface VehicleSummary {
   status: "active" | "out_of_service";
   subcoId: string;
 }
+
+export interface PendingDeviceSummary {
+  id: string;
+  driverId: string;
+  driverFirstName: string;
+  driverLastName: string;
+  requestedAt: string;
+}

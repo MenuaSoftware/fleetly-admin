@@ -12,6 +12,7 @@ interface AppHeaderProps {
 const NAV_LINKS = [
   { href: "/drivers", label: "Drivers" },
   { href: "/vehicles", label: "Vehicles" },
+  { href: "/devices", label: "Devices" },
 ] as const;
 
 export function AppHeader({ email, isGeneralAdmin }: AppHeaderProps) {
