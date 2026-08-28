@@ -82,10 +82,19 @@ export interface TripDamageSummary {
   reportedPhase: string | null;
 }
 
+export interface TripShareSummary {
+  id: string;
+  subcoId: string;
+  subcoName: string | null;
+  grantedAt: string;
+  revokedAt: string | null;
+}
+
 export interface TripDetail extends TripSummary {
   confirmations: TripConfirmationSummary[];
   photos: TripPhotoSummary[];
   damage: TripDamageSummary[];
+  shares: TripShareSummary[];
 }
 
 export interface IncidentSummary {

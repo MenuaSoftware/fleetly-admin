@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
-import { StaffMe, TripDetail } from "@/lib/types";
+import { StaffMe, SubcontractorSummary, TripDetail } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
 import { DamageList } from "@/components/damage-list";
 import { ForceCloseTripForm } from "@/components/force-close-trip-form";
 import { TripPhotoViewer } from "@/components/trip-photo-viewer";
+import { TripShareManager } from "@/components/trip-share-manager";
 
 const STATE_LABEL: Record<TripDetail["state"], string> = {
   active: "Active",
@@ -33,6 +34,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
 
   const me = await apiFetch<StaffMe>("/auth/me").catch(() => null);
   const trip = await apiFetch<TripDetail>(`/trips/${id}`);
+  const subcontractors = await apiFetch<SubcontractorSummary[]>("/subcontractors").catch(() => []);
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -120,6 +122,8 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
             ))}
           </ul>
         </div>
+
+        <TripShareManager tripId={trip.id} shares={trip.shares} subcontractors={subcontractors} />
 
         {trip.state === "active" && <ForceCloseTripForm tripId={trip.id} />}
       </div>

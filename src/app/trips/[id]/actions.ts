@@ -87,3 +87,37 @@ export async function transitionDamageAction(
     return { error: message };
   }
 }
+
+export interface ShareActionResult {
+  id?: string;
+  error?: string;
+}
+
+/**
+ * trip-share.controller.ts's grant()/revoke() are the real authority —
+ * this just calls them. "Only the trip's own subcontractor can share
+ * it" and "A trip cannot be shared with its own subcontractor" (403/400)
+ * come back as-is via ApiError.message, not re-worded here.
+ */
+export async function grantShareAction(tripId: string, grantedToSubcoId: string): Promise<ShareActionResult> {
+  try {
+    const result = await apiFetch<{ id: string }>(`/trips/${tripId}/share`, {
+      method: "POST",
+      body: { grantedToSubcoId },
+    });
+    return { id: result.id };
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not share this trip.";
+    return { error: message };
+  }
+}
+
+export async function revokeShareAction(tripId: string, subcoId: string): Promise<ShareActionResult> {
+  try {
+    await apiFetch(`/trips/${tripId}/share/${subcoId}/revoke`, { method: "POST" });
+    return {};
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not revoke this share.";
+    return { error: message };
+  }
+}
