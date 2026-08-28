@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored third-party skill, not this project's own code —
+    // installed by `npx impeccable install`, not written here.
+    ".claude/skills/**",
   ]),
 ]);
 
