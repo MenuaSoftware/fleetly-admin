@@ -42,3 +42,48 @@ export interface PendingDeviceSummary {
   driverLastName: string;
   requestedAt: string;
 }
+
+export interface TripSummary {
+  id: string;
+  state: "active" | "completed" | "force_closed";
+  origin: string;
+  driverId: string;
+  driverName: string | null;
+  vehicleId: string;
+  vehiclePlate: string | null;
+  startOdometer: number;
+  endOdometer: number | null;
+  distance: number | null;
+  startedAt: string;
+  endedAt: string | null;
+  closureReasonCode: string | null;
+}
+
+export interface TripConfirmationSummary {
+  phase: "opening" | "closing";
+  clientTime: string;
+  serverTime: string;
+  locationLat: number | null;
+  locationLng: number | null;
+  acknowledgedDamageIds: string[];
+}
+
+export interface TripPhotoSummary {
+  id: string;
+  photoType: "front" | "left" | "right" | "rear";
+  status: string;
+  uploadedAt: string | null;
+}
+
+export interface TripDamageSummary {
+  id: string;
+  view: string;
+  status: string;
+  reportedPhase: string | null;
+}
+
+export interface TripDetail extends TripSummary {
+  confirmations: TripConfirmationSummary[];
+  photos: TripPhotoSummary[];
+  damage: TripDamageSummary[];
+}
