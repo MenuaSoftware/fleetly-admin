@@ -1,7 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login"];
+// /accept-invite is reached via a Supabase invite link carrying the
+// session as a URL hash fragment — fragments never reach the server, so
+// this request looks unauthenticated here even though the browser will
+// have a real session moments later once its own Supabase client parses
+// the hash. Same reasoning as /login being public.
+const PUBLIC_PATHS = ["/login", "/accept-invite"];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });

@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { SignOutButton } from "@/components/sign-out-button";
+import { apiFetch } from "@/lib/api";
+import { StaffMe } from "@/lib/types";
+import { AppHeader } from "@/components/app-header";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -7,17 +9,14 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Degrades to "no admin nav" rather than crashing the page if the API
+  // is unreachable — a dead API shouldn't take the whole shell down with
+  // it, just the parts that need it.
+  const me = await apiFetch<StaffMe>("/auth/me").catch(() => null);
+
   return (
     <main className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between border-b border-line bg-paper px-6 py-4">
-        <span className="font-sans text-lg font-extrabold tracking-tight text-ink">
-          Fleetly
-        </span>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-ink-2">{user?.email}</span>
-          <SignOutButton />
-        </div>
-      </header>
+      <AppHeader email={user?.email} isGeneralAdmin={me?.role === "general_admin"} />
       <div className="flex flex-1 items-center justify-center px-4">
         <p className="text-sm text-ink-3">
           Signed in. The dispatcher panel starts here.
