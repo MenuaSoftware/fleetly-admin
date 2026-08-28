@@ -1,14 +1,24 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { inviteStaffAction, InviteState } from "@/app/staff/invite/actions";
+import { useActionState } from "react";
+import { createDriverAction, CreateDriverState } from "@/app/drivers/actions";
 import { SubcontractorSummary } from "@/lib/types";
 
-const initialState: InviteState = { error: null };
+const initialState: CreateDriverState = { error: null };
 
-export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSummary[] }) {
-  const [state, formAction, isPending] = useActionState(inviteStaffAction, initialState);
-  const [role, setRole] = useState<"dispatcher" | "general_admin">("dispatcher");
+/**
+ * No role toggle like InviteForm — a driver has no role concept.
+ * subcontractors is empty for a dispatcher, who never sees a picker at
+ * all: driver.controller.ts silently uses their own subco regardless of
+ * what's submitted, so showing a field they can't actually control
+ * would be misleading, not just redundant.
+ */
+export function CreateDriverForm({
+  subcontractors,
+}: {
+  subcontractors: SubcontractorSummary[];
+}) {
+  const [state, formAction, isPending] = useActionState(createDriverAction, initialState);
 
   return (
     <form
@@ -45,50 +55,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
         </div>
       </div>
 
-      <div className="mb-5">
-        <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink-2">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          disabled={isPending}
-          className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
-          placeholder="dispatcher@subcontractor.com"
-        />
-      </div>
-
-      <div className="mb-5">
-        <span className="mb-1.5 block text-sm font-medium text-ink-2">Role</span>
-        <div className="flex gap-2">
-          {(["dispatcher", "general_admin"] as const).map((r) => (
-            <label
-              key={r}
-              className={`flex-1 cursor-pointer rounded-xl border px-3.5 py-2.5 text-center text-sm font-medium transition-colors ${
-                role === r
-                  ? "border-accent bg-accent-soft text-accent-strong"
-                  : "border-line-2 text-ink-2 hover:bg-wash"
-              }`}
-            >
-              <input
-                type="radio"
-                name="role"
-                value={r}
-                checked={role === r}
-                onChange={() => setRole(r)}
-                disabled={isPending}
-                className="sr-only"
-              />
-              {r === "dispatcher" ? "Dispatcher" : "General admin"}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {role === "dispatcher" && (
+      {subcontractors.length > 0 && (
         <div className="mb-6">
           <label htmlFor="subcoId" className="mb-1.5 block text-sm font-medium text-ink-2">
             Subcontractor
@@ -112,7 +79,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
           </select>
         </div>
       )}
-      {role === "general_admin" && <div className="mb-6" />}
+      {subcontractors.length === 0 && <div className="mb-6" />}
 
       {state.error && (
         <div
@@ -128,7 +95,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
         disabled={isPending}
         className="flex w-full items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isPending ? "Sending invite…" : "Send invite"}
+        {isPending ? "Adding…" : "Add driver"}
       </button>
     </form>
   );

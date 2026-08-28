@@ -2,13 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
-import { StaffMe, StaffSummary } from "@/lib/types";
+import { StaffMe, StaffSummary, SubcontractorSummary } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
-
-interface SubcontractorSummary {
-  id: string;
-  name: string;
-}
 
 const ROLE_LABEL: Record<StaffSummary["role"], string> = {
   dispatcher: "Dispatcher",

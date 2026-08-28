@@ -1,14 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
-import { StaffMe } from "@/lib/types";
+import { StaffMe, SubcontractorSummary } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
 import { InviteForm } from "@/components/invite-form";
-
-interface SubcontractorSummary {
-  id: string;
-  name: string;
-}
 
 export default async function InviteStaffPage() {
   const supabase = await createClient();
