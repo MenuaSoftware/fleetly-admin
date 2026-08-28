@@ -58,3 +58,32 @@ export async function forceCloseTripAction(
   revalidatePath(`/trips/${tripId}`);
   return {};
 }
+
+export interface DamageActionResult {
+  status?: string;
+  error?: string;
+}
+
+/**
+ * damage.controller.ts's transition() enforces the real state machine
+ * (reported -> accepted -> repaired, or reported -> dismissed) — this
+ * just calls whichever endpoint the button pressed, the backend is
+ * what actually rejects an invalid transition (e.g. dismissing an
+ * already-accepted report comes back as a 409, surfaced as-is).
+ */
+export async function transitionDamageAction(
+  vehicleId: string,
+  damageId: string,
+  action: "accept" | "dismiss" | "repair",
+): Promise<DamageActionResult> {
+  try {
+    const result = await apiFetch<{ status: string }>(
+      `/vehicles/${vehicleId}/damage/${damageId}/${action}`,
+      { method: "PATCH" },
+    );
+    return { status: result.status };
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : `Could not ${action} this damage report.`;
+    return { error: message };
+  }
+}

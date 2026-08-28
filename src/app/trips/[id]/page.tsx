@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
 import { StaffMe, TripDetail } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
+import { DamageList } from "@/components/damage-list";
 import { ForceCloseTripForm } from "@/components/force-close-trip-form";
 import { TripPhotoViewer } from "@/components/trip-photo-viewer";
 
@@ -95,20 +96,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
           <>
             <h2 className="mb-2 text-sm font-semibold text-ink">Damage</h2>
             <div className="mb-6 overflow-hidden rounded-2xl border border-line bg-paper">
-              <ul>
-                {trip.damage.map((d, i) => (
-                  <li
-                    key={d.id}
-                    className={`flex items-center justify-between px-4 py-2.5 text-sm ${i > 0 ? "border-t border-line" : ""}`}
-                  >
-                    <span className="text-ink">{d.view}</span>
-                    <span className="text-ink-3">
-                      {d.status}
-                      {d.reportedPhase ? ` · ${d.reportedPhase}` : ""}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <DamageList vehicleId={trip.vehicleId} damage={trip.damage} />
             </div>
           </>
         )}
