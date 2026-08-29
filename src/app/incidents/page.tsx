@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
 import { StaffMe, IncidentSummary } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
+import { IncidentPhotoGallery } from "@/components/incident-photo-gallery";
 
 const TYPE_LABEL: Record<IncidentSummary["type"], string> = {
   breakdown: "Breakdown",
@@ -78,6 +79,9 @@ export default async function IncidentsPage() {
                       </>
                     )}
                   </p>
+                  <div className="mt-1.5">
+                    <IncidentPhotoGallery incidentId={inc.id} />
+                  </div>
                 </li>
               ))}
             </ul>
