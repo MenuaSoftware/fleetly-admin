@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
 import { StaffMe, StaffSummary, SubcontractorSummary } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
+import { StaffStatusToggle } from "@/components/staff-status-toggle";
 
 const ROLE_LABEL: Record<StaffSummary["role"], string> = {
   dispatcher: "Dispatcher",
@@ -72,14 +73,8 @@ export default async function StaffPage() {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span
-                      className={`rounded-full px-2.5 py-1 font-mono text-xs ${
-                        s.status === "active" ? "bg-ok-bg text-ok" : "bg-wash text-ink-3"
-                      }`}
-                    >
-                      {s.status}
-                    </span>
                     <span className="text-xs text-ink-2">{ROLE_LABEL[s.role]}</span>
+                    <StaffStatusToggle staffId={s.id} status={s.status} isSelf={s.id === me?.staffUserId} />
                   </div>
                 </li>
               ))}

@@ -10,7 +10,7 @@ export interface StaffSummary {
   firstName: string;
   lastName: string;
   role: "dispatcher" | "general_admin";
-  status: string;
+  status: "active" | "inactive";
   subcoId: string | null;
 }
 
