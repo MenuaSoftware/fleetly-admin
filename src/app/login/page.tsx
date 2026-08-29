@@ -44,7 +44,6 @@ export default function LoginPage() {
           with room for atmosphere, and it sets the tone before the
           dense dashboard behind it. */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="grid-plane absolute inset-0 opacity-[0.45]" />
         <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 animate-aurora rounded-full bg-brand/15 blur-3xl" />
         <div
           className="absolute -bottom-40 right-1/4 h-80 w-80 animate-aurora rounded-full bg-viz-2/12 blur-3xl"

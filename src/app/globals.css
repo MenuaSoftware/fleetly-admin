@@ -333,15 +333,6 @@ body {
   -webkit-backdrop-filter: blur(12px) saturate(1.4);
 }
 
-/* Faint grid, used behind the dashboard hero so a large empty surface
-   still reads as a designed plane rather than dead space. */
-@utility grid-plane {
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
-
 /* Honour the OS motion setting globally. Every entrance animation in
    the app is decorative, so collapsing them to ~0 is safe and is the
    one accessibility rule the design skill rates "High" severity. */
