@@ -4,6 +4,7 @@ import { apiFetch } from "@/lib/api";
 import { StaffMe, DriverSummary, SubcontractorSummary } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
 import { IssueBadgeButton } from "@/components/issue-badge-button";
+import { DriverStatusToggle } from "@/components/driver-status-toggle";
 
 export default async function DriversPage() {
   const supabase = await createClient();
@@ -66,13 +67,7 @@ export default async function DriversPage() {
                     )}
                   </div>
                   <div className="flex items-center gap-3">
-                    <span
-                      className={`rounded-full px-2.5 py-1 font-mono text-xs ${
-                        d.status === "active" ? "bg-ok-bg text-ok" : "bg-wash text-ink-3"
-                      }`}
-                    >
-                      {d.status}
-                    </span>
+                    <DriverStatusToggle driverId={d.id} status={d.status} />
                     <IssueBadgeButton driverId={d.id} />
                   </div>
                 </li>

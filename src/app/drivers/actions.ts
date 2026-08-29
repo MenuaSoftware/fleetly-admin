@@ -30,6 +30,28 @@ export async function issueBadgeAction(driverId: string): Promise<IssueBadgeResu
   }
 }
 
+export interface SetDriverStatusResult {
+  status?: string;
+  error?: string;
+}
+
+/** driver.controller.ts's setStatus() — mirrors setVehicleStatusAction exactly. */
+export async function setDriverStatusAction(
+  driverId: string,
+  status: "active" | "inactive",
+): Promise<SetDriverStatusResult> {
+  try {
+    const result = await apiFetch<{ status: string }>(`/drivers/${driverId}/status`, {
+      method: "PATCH",
+      body: { status },
+    });
+    return { status: result.status };
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not change this driver's status.";
+    return { error: message };
+  }
+}
+
 export interface CreateDriverState {
   error: string | null;
 }

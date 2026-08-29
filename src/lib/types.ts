@@ -23,7 +23,7 @@ export interface DriverSummary {
   id: string;
   firstName: string;
   lastName: string;
-  status: string;
+  status: "active" | "inactive";
   subcoId: string;
 }
 
