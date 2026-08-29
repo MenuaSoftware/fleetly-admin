@@ -22,6 +22,7 @@ const NAV_LINKS = [
 ] as const;
 
 const GENERAL_ADMIN_NAV_LINKS = [
+  { href: "/subcontractors", label: "Subcontractors" },
   { href: "/staff", label: "Staff" },
   { href: "/document-types", label: "Document types" },
   { href: "/retention", label: "Retention" },
