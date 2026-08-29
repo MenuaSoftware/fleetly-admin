@@ -7,6 +7,7 @@ import { DamageList } from "@/components/damage-list";
 import { ForceCloseTripForm } from "@/components/force-close-trip-form";
 import { TripPhotoViewer } from "@/components/trip-photo-viewer";
 import { TripShareManager } from "@/components/trip-share-manager";
+import { TripAmendmentManager } from "@/components/trip-amendment-manager";
 
 const STATE_LABEL: Record<TripDetail["state"], string> = {
   active: "Active",
@@ -124,6 +125,8 @@ export default async function TripDetailPage({ params }: { params: Promise<{ id:
         </div>
 
         <TripShareManager tripId={trip.id} shares={trip.shares} subcontractors={subcontractors} />
+
+        {trip.state !== "active" && <TripAmendmentManager trip={trip} />}
 
         {trip.state === "active" && <ForceCloseTripForm tripId={trip.id} />}
       </div>

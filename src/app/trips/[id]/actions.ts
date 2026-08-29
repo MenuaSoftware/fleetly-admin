@@ -3,6 +3,7 @@
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { apiFetch, ApiError } from "@/lib/api";
+import { TripAmendmentSummary } from "@/lib/types";
 
 export interface PhotoViewUrlResult {
   url?: string;
@@ -118,6 +119,41 @@ export async function revokeShareAction(tripId: string, subcoId: string): Promis
     return {};
   } catch (err) {
     const message = err instanceof ApiError ? err.message : "Could not revoke this share.";
+    return { error: message };
+  }
+}
+
+export interface AmendResult {
+  // trip-amendment.controller.ts's own AmendmentResponse — id/field/
+  // oldValue/newValue only, no reason/createdAt (those aren't echoed
+  // back; the caller already has `reason`, and supplies its own
+  // createdAt for local-state display, same as trip-share-manager.tsx's
+  // own optimistic-update pattern).
+  amendment?: { id: string; field: string; oldValue: string | null; newValue: string };
+  error?: string;
+}
+
+/**
+ * trip-amendment.controller.ts's amend() is the real authority —
+ * "Only a closed trip can be amended" (active) and "This trip has no
+ * closure reason to amend" (completed, not force_closed) come back
+ * as-is via ApiError.message. field/value/reason match that
+ * controller's own AmendTripDto exactly.
+ */
+export async function amendTripAction(
+  tripId: string,
+  field: TripAmendmentSummary["field"],
+  value: string,
+  reason: string,
+): Promise<AmendResult> {
+  try {
+    const amendment = await apiFetch<{ id: string; field: string; oldValue: string | null; newValue: string }>(
+      `/trips/${tripId}/amend`,
+      { method: "POST", body: { field, value, reason } },
+    );
+    return { amendment };
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not amend this trip.";
     return { error: message };
   }
 }

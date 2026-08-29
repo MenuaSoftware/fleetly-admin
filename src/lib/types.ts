@@ -90,11 +90,21 @@ export interface TripShareSummary {
   revokedAt: string | null;
 }
 
+export interface TripAmendmentSummary {
+  id: string;
+  field: "start_odometer" | "end_odometer" | "closure_reason_note";
+  oldValue: string | null;
+  newValue: string;
+  reason: string;
+  createdAt: string;
+}
+
 export interface TripDetail extends TripSummary {
   confirmations: TripConfirmationSummary[];
   photos: TripPhotoSummary[];
   damage: TripDamageSummary[];
   shares: TripShareSummary[];
+  amendments: TripAmendmentSummary[];
 }
 
 export interface IncidentSummary {
