@@ -87,15 +87,15 @@ export default function AcceptInvitePage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <main className="flex min-h-screen items-center justify-center bg-wash px-4">
+      <div className="w-full max-w-sm animate-slide-up">
         <div className="mb-8 text-center">
           <span className="font-sans text-2xl font-extrabold tracking-tight text-ink">
             Fleetly
           </span>
         </div>
 
-        <div className="rounded-2xl border border-line bg-paper p-8 shadow-[0_1px_2px_rgba(22,22,26,0.06),0_8px_24px_rgba(22,22,26,0.05)]">
+        <div className="rounded-2xl border border-line bg-paper p-8 shadow-lg">
           {status === "checking" && (
             <p className="text-center text-sm text-ink-3">Checking your invite…</p>
           )}

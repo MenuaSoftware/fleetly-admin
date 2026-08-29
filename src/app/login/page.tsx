@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type Status = "idle" | "loading" | "error";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -32,13 +33,14 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/");
+    const next = searchParams.get("next");
+    router.push(next && next.startsWith("/") ? next : "/");
     router.refresh();
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <main className="flex min-h-screen items-center justify-center bg-wash px-4">
+      <div className="w-full max-w-sm animate-slide-up">
         <div className="mb-8 text-center">
           <span className="font-sans text-2xl font-extrabold tracking-tight text-ink">
             Fleetly
@@ -47,7 +49,7 @@ export default function LoginPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-line bg-paper p-8 shadow-[0_1px_2px_rgba(22,22,26,0.06),0_8px_24px_rgba(22,22,26,0.05)]"
+          className="rounded-2xl border border-line bg-paper p-8 shadow-lg"
           noValidate
         >
           <h1 className="mb-1 text-lg font-semibold text-ink">Sign in</h1>

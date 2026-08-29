@@ -1,4 +1,6 @@
+import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
+import { StaffMe } from "@/lib/types";
 
 export class ApiError extends Error {
   constructor(
@@ -65,3 +67,16 @@ export async function apiFetch<T>(
 
   return (await res.json()) as T;
 }
+
+/**
+ * React's cache() memoizes this per request, not across requests — the
+ * underlying apiFetch() call still hits the real API with cache:
+ * "no-store" every time a *new* request comes in. This exists because
+ * both the root layout (to render the sidebar's admin-only links) and
+ * every general-admin-gated page (for its own redirect check) need the
+ * same /auth/me result within the same request; without this they'd
+ * make two separate network round trips for identical data.
+ */
+export const getMe = cache(async (): Promise<StaffMe | null> => {
+  return apiFetch<StaffMe>("/auth/me").catch(() => null);
+});

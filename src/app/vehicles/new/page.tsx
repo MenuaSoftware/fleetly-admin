@@ -1,16 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
-import { apiFetch } from "@/lib/api";
-import { StaffMe, SubcontractorSummary } from "@/lib/types";
-import { AppHeader } from "@/components/app-header";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { apiFetch, getMe } from "@/lib/api";
+import { SubcontractorSummary } from "@/lib/types";
 import { CreateVehicleForm } from "@/components/create-vehicle-form";
 
 export default async function NewVehiclePage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const me = await apiFetch<StaffMe>("/auth/me").catch(() => null);
+  const me = await getMe();
   const isGeneralAdmin = me?.role === "general_admin";
 
   const subcontractors = isGeneralAdmin
@@ -18,15 +13,19 @@ export default async function NewVehiclePage() {
     : [];
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <AppHeader email={user?.email} isGeneralAdmin={isGeneralAdmin} />
-      <div className="mx-auto w-full max-w-sm flex-1 px-4 py-10">
-        <div className="mb-6">
-          <h1 className="text-lg font-semibold text-ink">New vehicle</h1>
-          <p className="text-sm text-ink-3">Add it to the fleet.</p>
-        </div>
-        <CreateVehicleForm subcontractors={subcontractors} />
+    <div className="mx-auto w-full max-w-sm animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
+      <Link
+        href="/vehicles"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-ink-2 transition-colors hover:text-ink"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        Vehicles
+      </Link>
+      <div className="mb-6">
+        <h1 className="text-lg font-semibold text-ink">New vehicle</h1>
+        <p className="text-sm text-ink-3">Add it to the fleet.</p>
       </div>
-    </main>
+      <CreateVehicleForm subcontractors={subcontractors} />
+    </div>
   );
 }

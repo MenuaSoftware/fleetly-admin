@@ -1,7 +1,5 @@
-import { createClient } from "@/lib/supabase/server";
 import { apiFetch } from "@/lib/api";
-import { DocumentTypeSummary, DriverSummary, StaffMe, VehicleSummary } from "@/lib/types";
-import { AppHeader } from "@/components/app-header";
+import { DocumentTypeSummary, DriverSummary, VehicleSummary } from "@/lib/types";
 import { DocumentManager } from "@/components/document-manager";
 
 /**
@@ -13,13 +11,6 @@ import { DocumentManager } from "@/components/document-manager";
  * own subco by RLS, so nothing extra is needed here for that.
  */
 export default async function DocumentsPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const me = await apiFetch<StaffMe>("/auth/me").catch(() => null);
-
   const [vehicles, drivers, documentTypes] = await Promise.all([
     apiFetch<VehicleSummary[]>("/vehicles"),
     apiFetch<DriverSummary[]>("/drivers"),
@@ -27,16 +18,13 @@ export default async function DocumentsPage() {
   ]);
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <AppHeader email={user?.email} isGeneralAdmin={me?.role === "general_admin"} />
-      <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-10">
-        <div className="mb-6">
-          <h1 className="text-lg font-semibold text-ink">Documents</h1>
-          <p className="text-sm text-ink-3">Registration, insurance, licences — filed per vehicle or driver.</p>
-        </div>
-
-        <DocumentManager vehicles={vehicles} drivers={drivers} documentTypes={documentTypes} />
+    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mb-6">
+        <h1 className="text-lg font-semibold text-ink">Documents</h1>
+        <p className="text-sm text-ink-3">Registration, insurance, licences — filed per vehicle or driver.</p>
       </div>
-    </main>
+
+      <DocumentManager vehicles={vehicles} drivers={drivers} documentTypes={documentTypes} />
+    </div>
   );
 }

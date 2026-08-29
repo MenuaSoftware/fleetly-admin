@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
-export function SignOutButton() {
+export function SignOutButton({ iconOnly = false }: { iconOnly?: boolean }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -16,13 +17,28 @@ export function SignOutButton() {
     router.refresh();
   }
 
+  if (iconOnly) {
+    return (
+      <button
+        type="button"
+        onClick={handleSignOut}
+        disabled={loading}
+        title="Sign out"
+        className="flex h-9 w-9 items-center justify-center rounded-lg border border-line-2 text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+      >
+        <LogOut className={`h-4 w-4 ${loading ? "animate-pulse" : ""}`} />
+      </button>
+    );
+  }
+
   return (
     <button
       type="button"
       onClick={handleSignOut}
       disabled={loading}
-      className="rounded-lg border border-line-2 px-3 py-1.5 text-sm font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2 rounded-lg border border-line-2 px-3 py-1.5 text-sm font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
     >
+      <LogOut className="h-3.5 w-3.5" />
       {loading ? "Signing out…" : "Sign out"}
     </button>
   );

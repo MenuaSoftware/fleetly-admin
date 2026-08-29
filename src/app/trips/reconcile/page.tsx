@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { ArrowLeft } from "lucide-react";
 import { apiFetch } from "@/lib/api";
-import { DriverSummary, StaffMe, VehicleSummary } from "@/lib/types";
-import { AppHeader } from "@/components/app-header";
+import { DriverSummary, VehicleSummary } from "@/lib/types";
 import { ReconcileTripForm } from "@/components/reconcile-trip-form";
 
 /**
@@ -13,36 +12,30 @@ import { ReconcileTripForm } from "@/components/reconcile-trip-form";
  * every other dispatcher-facing screen.
  */
 export default async function ReconcileTripPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const me = await apiFetch<StaffMe>("/auth/me").catch(() => null);
-
   const [drivers, vehicles] = await Promise.all([
     apiFetch<DriverSummary[]>("/drivers"),
     apiFetch<VehicleSummary[]>("/vehicles"),
   ]);
 
   return (
-    <main className="flex min-h-screen flex-col">
-      <AppHeader email={user?.email} isGeneralAdmin={me?.role === "general_admin"} />
-      <div className="mx-auto w-full max-w-2xl flex-1 px-4 py-10">
-        <Link href="/trips" className="mb-4 inline-block text-sm text-ink-2 hover:text-ink">
-          ← Trips
-        </Link>
+    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
+      <Link
+        href="/trips"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-ink-2 transition-colors hover:text-ink"
+      >
+        <ArrowLeft className="h-3.5 w-3.5" />
+        Trips
+      </Link>
 
-        <div className="mb-6">
-          <h1 className="text-lg font-semibold text-ink">Reconcile a trip</h1>
-          <p className="text-sm text-ink-3">
-            For a trip recorded on paper during an outage — no photos or confirmations, marked manually
-            reconciled.
-          </p>
-        </div>
-
-        <ReconcileTripForm drivers={drivers} vehicles={vehicles} />
+      <div className="mb-6">
+        <h1 className="text-lg font-semibold text-ink">Reconcile a trip</h1>
+        <p className="text-sm text-ink-3">
+          For a trip recorded on paper during an outage — no photos or confirmations, marked manually
+          reconciled.
+        </p>
       </div>
-    </main>
+
+      <ReconcileTripForm drivers={drivers} vehicles={vehicles} />
+    </div>
   );
 }
