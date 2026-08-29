@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Car, Plus, Truck } from "lucide-react";
+import { Plus, Truck } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { VehicleSummary, SubcontractorSummary } from "@/lib/types";
 import { VehicleStatusToggle } from "@/components/vehicle-status-toggle";
 import { EmptyState, PageHeader, PageShell } from "@/components/page-kit";
-import { EntityCard, EntityGrid } from "@/components/entity-grid";
+import { EntityCard, EntityGrid, VehicleAvatar } from "@/components/entity-grid";
 
 const BODY_TYPE_LABEL: Record<VehicleSummary["bodyType"], string> = {
   van: "Van",
@@ -78,16 +78,8 @@ export default async function VehiclesPage() {
             <EntityCard
               key={v.id}
               index={i}
-              avatar={
-                <span
-                  aria-hidden
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
-                    v.status === "active" ? "bg-viz-3/10 text-viz-3" : "bg-sunken text-ink-3"
-                  }`}
-                >
-                  {v.bodyType === "car" ? <Car className="h-5 w-5" /> : <Truck className="h-5 w-5" />}
-                </span>
-              }
+              href={`/vehicles/${v.id}`}
+              avatar={<VehicleAvatar bodyType={v.bodyType} inService={v.status === "active"} />}
               title={v.plate}
               titleMono
               subtitle={

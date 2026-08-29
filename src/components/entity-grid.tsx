@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "motion/react";
+import { ArrowUpRight, Car, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EASE_OUT } from "@/lib/motion";
 import { StatusPill, type Tone } from "@/components/page-kit";
@@ -30,6 +32,7 @@ export function EntityCard({
   statusTone = "neutral",
   actions,
   dimmed = false,
+  href,
 }: {
   index?: number;
   avatar?: React.ReactNode;
@@ -42,27 +45,46 @@ export function EntityCard({
   statusTone?: Tone;
   actions?: React.ReactNode;
   dimmed?: boolean;
+  /** Detail page for this record, if it has one. */
+  href?: string;
 }) {
+  const identity = (
+    <div className="flex items-start gap-3">
+      {avatar}
+      <div className="min-w-0 flex-1">
+        <p className={cn("truncate text-sm font-semibold text-ink", titleMono && "font-mono")}>{title}</p>
+        {subtitle && <p className="mt-0.5 truncate text-xs text-ink-3">{subtitle}</p>}
+      </div>
+      {statusLabel && <StatusPill tone={statusTone}>{statusLabel}</StatusPill>}
+      {href && (
+        <ArrowUpRight className="h-4 w-4 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
+      )}
+    </div>
+  );
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(index * 0.035, 0.35), duration: 0.3, ease: EASE_OUT }}
       className={cn(
-        "flex flex-col rounded-2xl border border-line bg-paper p-4 shadow-sm transition-shadow hover:shadow-md",
+        "group flex flex-col rounded-2xl border border-line bg-paper p-4 shadow-sm transition-shadow hover:shadow-md",
         // Deactivated records stay legible rather than being greyed to
         // the point of unreadability — they're still actionable.
         dimmed && "border-dashed",
       )}
     >
-      <div className="flex items-start gap-3">
-        {avatar}
-        <div className="min-w-0 flex-1">
-          <p className={cn("truncate text-sm font-semibold text-ink", titleMono && "font-mono")}>{title}</p>
-          {subtitle && <p className="mt-0.5 truncate text-xs text-ink-3">{subtitle}</p>}
-        </div>
-        {statusLabel && <StatusPill tone={statusTone}>{statusLabel}</StatusPill>}
-      </div>
+      {/* Only the identity block links through. The card can't be one
+          big anchor: the actions row holds real buttons, and nesting
+          interactive controls inside a link is invalid and makes them
+          fight for the same click. */}
+      {href ? (
+        <Link href={href} className="rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand/50">
+          {identity}
+        </Link>
+      ) : (
+        identity
+      )}
 
       {meta && <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink-3">{meta}</div>}
 
@@ -70,6 +92,35 @@ export function EntityCard({
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-3">{actions}</div>
       )}
     </motion.article>
+  );
+}
+
+/**
+ * Vehicle identity chip. A component rather than inline markup at each
+ * call site: the vehicles list and the vehicle detail page both need
+ * it, and building the same span inline in both had them drift.
+ */
+export function VehicleAvatar({
+  bodyType,
+  inService,
+  size = "sm",
+}: {
+  bodyType: "van" | "truck" | "car";
+  inService: boolean;
+  size?: "sm" | "lg";
+}) {
+  const Icon = bodyType === "car" ? Car : Truck;
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "flex shrink-0 items-center justify-center rounded-xl",
+        size === "lg" ? "h-12 w-12 rounded-2xl" : "h-10 w-10",
+        inService ? "bg-viz-3/10 text-viz-3" : "bg-sunken text-ink-3",
+      )}
+    >
+      <Icon className={size === "lg" ? "h-6 w-6" : "h-5 w-5"} />
+    </span>
   );
 }
 

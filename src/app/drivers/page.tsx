@@ -80,6 +80,7 @@ export default async function DriversPage() {
               <EntityCard
                 key={d.id}
                 index={i}
+                href={`/drivers/${d.id}`}
                 avatar={<InitialsAvatar name={name} tone={d.status === "active" ? "brand" : "neutral"} />}
                 title={name}
                 subtitle={isGeneralAdmin ? (subcoName.get(d.subcoId) ?? "Unknown subcontractor") : undefined}

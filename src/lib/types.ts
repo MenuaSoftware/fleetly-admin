@@ -83,6 +83,26 @@ export interface TripDamageSummary {
   reportedPhase: string | null;
 }
 
+/**
+ * The full damage row from GET /vehicles/:id/damage — the vehicle's
+ * standing damage register, which is wider than the per-trip
+ * TripDamageSummary above (that one only carries what the trip screen
+ * needs).
+ */
+export interface DamageSummary {
+  id: string;
+  vehicleId: string;
+  tripId: string | null;
+  reportedPhase: string | null;
+  status: string;
+  view: string;
+  positionX: number;
+  positionY: number;
+  reportedByRole: string;
+  reportedByUserId: string;
+  reportedAt: string;
+}
+
 export interface TripShareSummary {
   id: string;
   subcoId: string;
