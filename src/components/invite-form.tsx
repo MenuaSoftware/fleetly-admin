@@ -27,7 +27,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
             type="text"
             required
             disabled={isPending}
-            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
           />
         </div>
         <div>
@@ -40,7 +40,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
             type="text"
             required
             disabled={isPending}
-            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
           />
         </div>
       </div>
@@ -56,7 +56,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
           autoComplete="email"
           required
           disabled={isPending}
-          className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+          className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
           placeholder="dispatcher@subcontractor.com"
         />
       </div>
@@ -69,7 +69,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
               key={r}
               className={`flex-1 cursor-pointer rounded-xl border px-3.5 py-2.5 text-center text-sm font-medium transition-colors ${
                 role === r
-                  ? "border-accent bg-accent-soft text-accent-strong"
+                  ? "border-brand bg-brand-soft text-brand-strong"
                   : "border-line-2 text-ink-2 hover:bg-wash"
               }`}
             >
@@ -99,7 +99,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
             required
             disabled={isPending}
             defaultValue=""
-            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
           >
             <option value="" disabled>
               Select a subcontractor
@@ -126,7 +126,7 @@ export function InviteForm({ subcontractors }: { subcontractors: SubcontractorSu
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isPending ? "Sending invite…" : "Send invite"}
       </button>

@@ -1,24 +1,36 @@
 import type { Metadata } from "next";
-import { Poppins, JetBrains_Mono } from "next/font/google";
+import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/lib/supabase/server";
 import { getMe } from "@/lib/api";
 import { AppShell } from "@/components/app-shell";
 import { ThemeProvider } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 
-// Matches ../fleetly/docs/index.html's established Fleetly identity —
-// Poppins carries UI text, JetBrains Mono is reserved for actual data
-// (odometer readings, ids, timestamps), never used decoratively.
-const poppins = Poppins({
-  variable: "--font-poppins",
+// Three faces, three jobs. Space Grotesk gives headings a technical,
+// slightly mechanical character that suits a fleet-ops product without
+// being a novelty face; Inter carries the dense UI text where
+// legibility at 12–14px is what actually matters (Space Grotesk is too
+// mannered at that size); JetBrains Mono stays reserved for real data —
+// plates, odometers, ids — and is never used decoratively.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -47,7 +59,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={cn(
+        "h-full antialiased font-sans",
+        inter.variable,
+        spaceGrotesk.variable,
+        jetbrainsMono.variable,
+      )}
       suppressHydrationWarning
     >
       <body className="h-full">

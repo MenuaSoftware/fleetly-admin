@@ -71,7 +71,7 @@ export function NotificationList({ notifications: initial }: { notifications: No
             key={n.id}
             data-testid={`notification-${n.id}`}
             className={`flex items-start justify-between gap-3 px-5 py-3.5 ${i > 0 ? "border-t border-line" : ""} ${
-              n.readAt ? "" : "bg-accent-soft"
+              n.readAt ? "" : "bg-brand-soft"
             }`}
           >
             <div className="min-w-0">
@@ -79,7 +79,7 @@ export function NotificationList({ notifications: initial }: { notifications: No
                 <span className={`rounded-full px-2.5 py-1 font-mono text-xs ${TYPE_BADGE_CLASS[n.type]}`}>
                   {TYPE_LABEL[n.type]}
                 </span>
-                {!n.readAt && <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-label="Unread" />}
+                {!n.readAt && <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-label="Unread" />}
               </div>
               <p className="text-sm text-ink">{n.message}</p>
               <p className="mt-1 text-xs text-ink-3">
@@ -87,7 +87,7 @@ export function NotificationList({ notifications: initial }: { notifications: No
                 {n.type === "incident" && (
                   <>
                     {" · "}
-                    <Link href="/incidents" className="text-accent hover:text-accent-strong">
+                    <Link href="/incidents" className="text-brand hover:text-brand-strong">
                       view incidents
                     </Link>
                   </>

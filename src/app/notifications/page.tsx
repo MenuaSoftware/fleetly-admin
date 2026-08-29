@@ -1,6 +1,8 @@
+import { Bell } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { NotificationSummary } from "@/lib/types";
 import { NotificationList } from "@/components/notification-list";
+import { PageHeader, PageShell, SectionCard } from "@/components/page-kit";
 
 /**
  * notification.controller.ts's own comment: "subco-wide (notification_read
@@ -11,17 +13,32 @@ import { NotificationList } from "@/components/notification-list";
  */
 export default async function NotificationsPage() {
   const notifications = await apiFetch<NotificationSummary[]>("/notifications");
+  const unread = notifications.filter((n) => n.readAt === null).length;
 
   return (
-    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-ink">Notifications</h1>
-        <p className="text-sm text-ink-3">Incidents and expiring documents for this subcontractor.</p>
-      </div>
+    <PageShell width="medium">
+      <PageHeader
+        eyebrow="Inbox"
+        title="Notifications"
+        description="Incidents and expiring documents for this subcontractor."
+        icon={<Bell className="h-5 w-5" />}
+      />
 
-      <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
+      {notifications.length > 0 && (
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-ink-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+            <span className="font-mono text-ink">{unread}</span> unread
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
+            <span className="font-mono text-ink">{notifications.length}</span> total
+          </span>
+        </div>
+      )}
+
+      <SectionCard flush>
         <NotificationList notifications={notifications} />
-      </div>
-    </div>
+      </SectionCard>
+    </PageShell>
   );
 }

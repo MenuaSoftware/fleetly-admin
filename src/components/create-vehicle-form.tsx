@@ -35,7 +35,7 @@ export function CreateVehicleForm({
           type="text"
           required
           disabled={isPending}
-          className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3 font-mono"
+          className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3 font-mono"
           placeholder="1-ABC-123"
         />
       </div>
@@ -48,7 +48,7 @@ export function CreateVehicleForm({
               key={bt.value}
               className={`flex-1 cursor-pointer rounded-xl border px-3.5 py-2.5 text-center text-sm font-medium transition-colors ${
                 bodyType === bt.value
-                  ? "border-accent bg-accent-soft text-accent-strong"
+                  ? "border-brand bg-brand-soft text-brand-strong"
                   : "border-line-2 text-ink-2 hover:bg-wash"
               }`}
             >
@@ -78,7 +78,7 @@ export function CreateVehicleForm({
             required
             disabled={isPending}
             defaultValue=""
-            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+            className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
           >
             <option value="" disabled>
               Select a subcontractor
@@ -105,7 +105,7 @@ export function CreateVehicleForm({
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex w-full items-center justify-center rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isPending ? "Adding…" : "Add vehicle"}
       </button>

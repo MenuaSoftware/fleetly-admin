@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
+import { Archive } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { RetentionPolicySummary } from "@/lib/types";
 import { RetentionPolicyManager } from "@/components/retention-policy-manager";
+import { PageHeader, PageShell } from "@/components/page-kit";
 
 /**
  * "Configure retention settings" is general-admin-only per
@@ -19,15 +21,15 @@ export default async function RetentionPage() {
   const policies = await apiFetch<RetentionPolicySummary[]>("/retention");
 
   return (
-    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-ink">Retention</h1>
-        <p className="text-sm text-ink-3">
-          How long each type of personal data is kept before it&apos;s deleted or cleared.
-        </p>
-      </div>
+    <PageShell width="medium">
+      <PageHeader
+        eyebrow="Administration"
+        title="Retention"
+        description="How long each type of personal data is kept before it’s deleted or cleared."
+        icon={<Archive className="h-5 w-5" />}
+      />
 
       <RetentionPolicyManager policies={policies} />
-    </div>
+    </PageShell>
   );
 }

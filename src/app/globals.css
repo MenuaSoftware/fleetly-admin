@@ -1,86 +1,172 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 /*
-  Fleetly design tokens — evolved from ../fleetly/docs/index.html's
-  established identity (crimson accent, heavily rounded, Poppins/
-  JetBrains Mono) into a full light+dark dashboard system. Every color
-  everywhere in this app is indirected through these CSS custom
-  properties (never a raw hex in a component), so dark mode needs zero
-  component changes — only the `.dark` block below has to know two
-  palettes exist.
+  Fleetly design tokens.
+
+  Two token families live here and they are deliberately kept apart:
+
+  1. Fleetly's own semantic tokens (--paper, --ink, --brand, ...) —
+     the house design language, descended from ../fleetly/docs/index.html.
+     Every Fleetly-authored component reads these and never a raw hex,
+     which is what makes dark mode a pure token swap.
+
+  2. shadcn/ui's contract tokens (--background, --primary, --accent, ...)
+     — required verbatim by the vendored components in components/ui.
+     These are *mapped onto* the Fleetly palette below, so shadcn
+     primitives come out on-brand without being restyled one by one.
+
+  Note --accent belongs to shadcn (it means "subtle hover surface"
+  there). Fleetly's crimson is --brand, NOT --accent; naming it accent
+  collided with shadcn's and silently flattened the whole palette.
 */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* --- surfaces --- */
   --paper: #ffffff;
-  --wash: #f6f6f8;
+  --wash: #f7f7fa;
   --raised: #ffffff;
-  --ink: #15151a;
-  --ink-2: #4b4b58;
-  --ink-3: #8a8a98;
-  --line: #e7e7ed;
-  --line-2: #d4d4dd;
+  --sunken: #f1f1f6;
 
-  --accent: #d90429;
-  --accent-strong: #a4031f;
-  --accent-soft: #fff0f2;
+  /* --- text --- */
+  --ink: #0f0f14;
+  --ink-2: #52525f;
+  --ink-3: #8e8e9e;
 
+  /* --- hairlines --- */
+  --line: #e8e8ef;
+  --line-2: #d6d6e0;
+
+  /* --- brand (crimson, from the design reference) --- */
+  --brand: #d90429;
+  --brand-strong: #a4031f;
+  --brand-soft: #fff0f2;
+  --brand-ink: #ffffff;
+  --brand-glow: 217 4 41;
+
+  /* --- semantic status --- */
   --ok: #0e9f6e;
   --ok-bg: #e6f6f0;
   --warn: #d97706;
   --warn-bg: #fef6e7;
   --bad: #d90429;
   --bad-bg: #fff0f2;
+  --info: #2563eb;
+  --info-bg: #eff6ff;
 
-  --shadow-color: 220 20% 20%;
+  /* --- data-viz ramp: distinct hues for stat tiles and charts --- */
+  --viz-1: #d90429;
+  --viz-2: #7c3aed;
+  --viz-3: #0891b2;
+  --viz-4: #d97706;
+  --viz-5: #059669;
+
+  /* --- elevation --- */
+  --shadow-color: 240 20% 20%;
   --shadow-card-sm: 0 1px 2px hsl(var(--shadow-color) / 0.06);
   --shadow-card-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.10), 0 1px 2px hsl(var(--shadow-color) / 0.06);
   --shadow-card-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.16), 0 2px 6px hsl(var(--shadow-color) / 0.08);
+  --shadow-glow: 0 0 0 1px rgb(var(--brand-glow) / 0.12), 0 8px 28px -6px rgb(var(--brand-glow) / 0.28);
 
-  --sidebar-w: 15.5rem;
+  /* --- shell metrics --- */
+  --sidebar-w: 16rem;
   --sidebar-w-collapsed: 4.5rem;
+
+  /* --- shadcn contract, mapped onto the Fleetly palette --- */
+  --background: var(--wash);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-ink);
+  --secondary: var(--sunken);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sunken);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--sunken);
+  --accent-foreground: var(--ink);
+  --destructive: var(--bad);
+  --border: var(--line);
+  --input: var(--line-2);
+  --ring: var(--brand);
+  --chart-1: var(--viz-1);
+  --chart-2: var(--viz-2);
+  --chart-3: var(--viz-3);
+  --chart-4: var(--viz-4);
+  --chart-5: var(--viz-5);
+  --radius: 0.875rem;
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand);
+  --sidebar-primary-foreground: var(--brand-ink);
+  --sidebar-accent: var(--sunken);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--line);
+  --sidebar-ring: var(--brand);
 }
 
 .dark {
-  --paper: #1a1a20;
-  --wash: #101014;
-  --raised: #202028;
-  --ink: #f3f3f6;
-  --ink-2: #b7b7c3;
-  --ink-3: #78788a;
-  --line: #2a2a33;
-  --line-2: #38383f;
+  /* Cool, slightly violet-tinted darks — a flat neutral gray reads as
+     "unfinished dark mode"; the hue shift is what makes it feel built. */
+  --paper: #14141b;
+  --wash: #0a0a0f;
+  --raised: #1c1c26;
+  --sunken: #1f1f2a;
 
-  --accent: #ff4d6a;
-  --accent-strong: #ff7a90;
-  --accent-soft: #351019;
+  --ink: #f4f4f8;
+  --ink-2: #b4b4c4;
+  --ink-3: #7a7a8e;
+
+  --line: #26262f;
+  --line-2: #343441;
+
+  --brand: #ff4d6a;
+  --brand-strong: #ff8098;
+  --brand-soft: #2e0f16;
+  --brand-ink: #1a0308;
+  --brand-glow: 255 77 106;
 
   --ok: #34d399;
   --ok-bg: #0d2a20;
   --warn: #fbbf24;
   --warn-bg: #2e2308;
   --bad: #ff4d6a;
-  --bad-bg: #351019;
+  --bad-bg: #2e0f16;
+  --info: #60a5fa;
+  --info-bg: #0f1f38;
+
+  --viz-1: #ff4d6a;
+  --viz-2: #a78bfa;
+  --viz-3: #22d3ee;
+  --viz-4: #fbbf24;
+  --viz-5: #34d399;
 
   --shadow-color: 0 0% 0%;
-  --shadow-card-sm: 0 1px 2px hsl(var(--shadow-color) / 0.3);
-  --shadow-card-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.5), 0 1px 2px hsl(var(--shadow-color) / 0.3);
-  --shadow-card-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.6), 0 2px 6px hsl(var(--shadow-color) / 0.4);
+  --shadow-card-sm: 0 1px 2px hsl(var(--shadow-color) / 0.4);
+  --shadow-card-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.6), 0 1px 2px hsl(var(--shadow-color) / 0.4);
+  --shadow-card-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.7), 0 2px 6px hsl(var(--shadow-color) / 0.5);
+  --shadow-glow: 0 0 0 1px rgb(var(--brand-glow) / 0.22), 0 8px 30px -6px rgb(var(--brand-glow) / 0.35);
 }
 
 @theme inline {
   --color-paper: var(--paper);
   --color-wash: var(--wash);
   --color-raised: var(--raised);
+  --color-sunken: var(--sunken);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-ink-3: var(--ink-3);
   --color-line: var(--line);
   --color-line-2: var(--line-2);
 
-  --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
-  --color-accent-soft: var(--accent-soft);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-ink: var(--brand-ink);
 
   --color-ok: var(--ok);
   --color-ok-bg: var(--ok-bg);
@@ -88,12 +174,26 @@
   --color-warn-bg: var(--warn-bg);
   --color-bad: var(--bad);
   --color-bad-bg: var(--bad-bg);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+
+  --color-viz-1: var(--viz-1);
+  --color-viz-2: var(--viz-2);
+  --color-viz-3: var(--viz-3);
+  --color-viz-4: var(--viz-4);
+  --color-viz-5: var(--viz-5);
 
   --shadow-sm: var(--shadow-card-sm);
   --shadow-md: var(--shadow-card-md);
   --shadow-lg: var(--shadow-card-lg);
+  --shadow-glow: var(--shadow-glow);
 
-  --font-sans: var(--font-poppins);
+  /* Space Grotesk carries display/headings (technical character without
+     being a novelty face), Inter carries dense UI text where legibility
+     at 12–14px is what actually matters, JetBrains Mono stays reserved
+     for real data — plates, odometers, ids. */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
 
   --animate-fade-in: fade-in 0.35s ease-out both;
@@ -101,6 +201,47 @@
   --animate-slide-in-left: slide-in-left 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-scale-in: scale-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-aurora: aurora 18s ease-in-out infinite;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 @keyframes fade-in {
@@ -123,6 +264,15 @@
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+@keyframes pulse-ring {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(1.9); }
+}
+@keyframes aurora {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(3%, -4%, 0) scale(1.08); }
+  66% { transform: translate3d(-3%, 3%, 0) scale(0.95); }
+}
 
 html {
   color-scheme: light;
@@ -132,8 +282,6 @@ html.dark {
 }
 
 body {
-  background: var(--wash);
-  color: var(--ink);
   font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -141,12 +289,12 @@ body {
 /* Themed browser surfaces — the cheapest signal a page was built, not
    assembled (craft-floor.md). */
 ::selection {
-  background: var(--accent);
-  color: #fff;
+  background: var(--brand);
+  color: var(--brand-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
 }
 
@@ -165,9 +313,89 @@ body {
   border: 2px solid transparent;
   background-clip: content-box;
 }
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-3);
+  background-clip: content-box;
+}
 
-.skeleton {
+@utility skeleton {
   background: linear-gradient(90deg, var(--line) 25%, var(--line-2) 37%, var(--line) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* Frosted surface for sticky chrome (topbar, drawer). Kept at high
+   opacity deliberately — a 10%-opacity "glass" card is the single most
+   common way light mode ends up unreadable. */
+@utility glass {
+  background: color-mix(in oklab, var(--paper) 82%, transparent);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+}
+
+/* Faint grid, used behind the dashboard hero so a large empty surface
+   still reads as a designed plane rather than dead space. */
+@utility grid-plane {
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Honour the OS motion setting globally. Every entrance animation in
+   the app is decorative, so collapsing them to ~0 is safe and is the
+   one accessibility rule the design skill rates "High" severity. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display), var(--font-sans), system-ui, sans-serif;
+    letter-spacing: -0.011em;
+  }
+
+  /* Native selects are the one control that still renders with an OS
+     widget in the middle of an otherwise custom form. Styled here, once,
+     rather than in each of the dozen components that use one — a <select>
+     can't carry a pseudo-element, so the chevron has to be a background
+     image, which is also why the colour is repeated per theme instead of
+     inheriting currentColor. */
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%238e8e9e' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem 1rem;
+    padding-right: 2.25rem;
+  }
+  .dark select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%237a7a8e' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  }
+  /* The dropdown list itself is OS-rendered; this at least keeps the
+     options legible when the page is in dark mode. */
+  select option {
+    background: var(--paper);
+    color: var(--ink);
+  }
 }

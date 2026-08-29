@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { SubcontractorSummary } from "@/lib/types";
 import { CreateDriverForm } from "@/components/create-driver-form";
+import { BackLink, PageHeader, PageShell, SectionCard } from "@/components/page-kit";
 
 export default async function NewDriverPage() {
   const me = await getMe();
@@ -15,19 +15,17 @@ export default async function NewDriverPage() {
     : [];
 
   return (
-    <div className="mx-auto w-full max-w-sm animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <Link
-        href="/drivers"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-ink-2 transition-colors hover:text-ink"
-      >
-        <ArrowLeft className="h-3.5 w-3.5" />
-        Drivers
-      </Link>
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-ink">New driver</h1>
-        <p className="text-sm text-ink-3">Issue their badge once they&rsquo;re added.</p>
-      </div>
-      <CreateDriverForm subcontractors={subcontractors} />
-    </div>
+    <PageShell width="narrow">
+      <BackLink href="/drivers">Drivers</BackLink>
+      <PageHeader
+        eyebrow="Roster"
+        title="New driver"
+        description="Issue their badge once they’re added."
+        icon={<UserPlus className="h-5 w-5" />}
+      />
+      <SectionCard>
+        <CreateDriverForm subcontractors={subcontractors} />
+      </SectionCard>
+    </PageShell>
   );
 }

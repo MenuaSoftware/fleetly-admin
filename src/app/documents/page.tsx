@@ -1,6 +1,8 @@
+import { FileText } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { DocumentTypeSummary, DriverSummary, VehicleSummary } from "@/lib/types";
 import { DocumentManager } from "@/components/document-manager";
+import { PageHeader, PageShell } from "@/components/page-kit";
 
 /**
  * "Upload driver or vehicle document | no | yes | yes" — dispatcher or
@@ -18,13 +20,15 @@ export default async function DocumentsPage() {
   ]);
 
   return (
-    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-ink">Documents</h1>
-        <p className="text-sm text-ink-3">Registration, insurance, licences — filed per vehicle or driver.</p>
-      </div>
+    <PageShell width="medium">
+      <PageHeader
+        eyebrow="Compliance"
+        title="Documents"
+        description="Registration, insurance, licences — filed per vehicle or driver."
+        icon={<FileText className="h-5 w-5" />}
+      />
 
       <DocumentManager vehicles={vehicles} drivers={drivers} documentTypes={documentTypes} />
-    </div>
+    </PageShell>
   );
 }

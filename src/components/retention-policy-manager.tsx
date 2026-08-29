@@ -93,14 +93,14 @@ export function RetentionPolicyManager({ policies: initial }: { policies: Retent
                       value={editDays}
                       onChange={(e) => setEditDays(e.target.value)}
                       disabled={busyType === dataType}
-                      className="w-20 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-accent focus:outline-none disabled:bg-wash"
+                      className="w-20 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-brand focus:outline-none disabled:bg-wash"
                     />
                     <span className="text-xs text-ink-3">days</span>
                     <button
                       type="button"
                       onClick={() => handleSave(dataType)}
                       disabled={busyType === dataType}
-                      className="rounded-lg bg-accent px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-accent-strong disabled:opacity-60"
+                      className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
                     >
                       Save
                     </button>
@@ -151,7 +151,7 @@ export function RetentionPolicyManager({ policies: initial }: { policies: Retent
           type="button"
           onClick={handleEnforce}
           disabled={isEnforcing}
-          className="rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+          className="rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
         >
           {isEnforcing ? "Running…" : "Run enforcement"}
         </button>

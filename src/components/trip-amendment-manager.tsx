@@ -91,7 +91,7 @@ export function TripAmendmentManager({ trip }: { trip: TripDetail }) {
               value={field}
               onChange={(e) => setField(e.target.value as TripAmendmentSummary["field"])}
               disabled={isSubmitting}
-              className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+              className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
             >
               {availableFields.map((f) => (
                 <option key={f} value={f}>
@@ -105,7 +105,7 @@ export function TripAmendmentManager({ trip }: { trip: TripDetail }) {
               disabled={isSubmitting}
               placeholder={field === "closure_reason_note" ? "New closure reason" : "New reading (km)"}
               type={field === "closure_reason_note" ? "text" : "number"}
-              className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+              className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
             />
           </div>
           <input
@@ -113,7 +113,7 @@ export function TripAmendmentManager({ trip }: { trip: TripDetail }) {
             onChange={(e) => setReason(e.target.value)}
             disabled={isSubmitting}
             placeholder="Why is this being corrected?"
-            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
           />
           {error && (
             <p role="alert" className="text-sm text-bad">
@@ -123,7 +123,7 @@ export function TripAmendmentManager({ trip }: { trip: TripDetail }) {
           <button
             type="submit"
             disabled={isSubmitting || !value.trim() || !reason.trim()}
-            className="rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+            className="rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
           >
             {isSubmitting ? "Saving…" : "Amend"}
           </button>

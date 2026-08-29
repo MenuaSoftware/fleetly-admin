@@ -41,7 +41,7 @@ export function CloneDocumentTypesButton({ subcontractors }: { subcontractors: S
           value={subcoId}
           onChange={(e) => setSubcoId(e.target.value)}
           disabled={isCloning}
-          className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         >
           <option value="">Select a subcontractor</option>
           {subcontractors.map((s) => (
@@ -54,7 +54,7 @@ export function CloneDocumentTypesButton({ subcontractors }: { subcontractors: S
           type="button"
           onClick={handleClone}
           disabled={isCloning || !subcoId}
-          className="rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+          className="rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
         >
           {isCloning ? "Cloning…" : "Clone"}
         </button>

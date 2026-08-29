@@ -77,7 +77,7 @@ export function ForceCloseTripForm({ tripId }: { tripId: string }) {
           onChange={(e) => setReasonCode(e.target.value)}
           required
           disabled={isSubmitting}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         >
           <option value="" disabled>
             Select a reason
@@ -101,7 +101,7 @@ export function ForceCloseTripForm({ tripId }: { tripId: string }) {
           value={endOdometer}
           onChange={(e) => setEndOdometer(e.target.value)}
           disabled={isSubmitting}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         />
       </div>
 
@@ -115,7 +115,7 @@ export function ForceCloseTripForm({ tripId }: { tripId: string }) {
           onChange={(e) => setReasonNote(e.target.value)}
           disabled={isSubmitting}
           rows={2}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         />
       </div>
 

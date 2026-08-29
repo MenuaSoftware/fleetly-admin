@@ -77,13 +77,13 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       disabled={busyId === s.id}
-                      className="min-w-[12rem] flex-1 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-accent focus:outline-none disabled:bg-wash"
+                      className="min-w-[12rem] flex-1 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-brand focus:outline-none disabled:bg-wash"
                     />
                     <button
                       type="button"
                       onClick={() => handleSave(s.id)}
                       disabled={busyId === s.id}
-                      className="rounded-lg bg-accent px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-accent-strong disabled:opacity-60"
+                      className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
                     >
                       Save
                     </button>
@@ -127,13 +127,13 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
             onChange={(e) => setNewName(e.target.value)}
             disabled={isCreating}
             placeholder="Company name"
-            className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+            className="flex-1 rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
           />
           <button
             type="button"
             onClick={handleCreate}
             disabled={isCreating || !newName.trim()}
-            className="rounded-lg bg-accent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+            className="rounded-lg bg-brand px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
           >
             {isCreating ? "Adding…" : "Add"}
           </button>

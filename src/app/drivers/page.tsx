@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { Plus, Users } from "lucide-react";
+import { Plus, Smartphone, Users } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { DriverSummary, SubcontractorSummary } from "@/lib/types";
 import { IssueBadgeButton } from "@/components/issue-badge-button";
 import { DriverStatusToggle } from "@/components/driver-status-toggle";
 import { RevokeDeviceButton } from "@/components/revoke-device-button";
+import { EmptyState, PageHeader, PageShell } from "@/components/page-kit";
+import { EntityCard, EntityGrid, InitialsAvatar } from "@/components/entity-grid";
 
 export default async function DriversPage() {
   const me = await getMe();
@@ -20,60 +22,89 @@ export default async function DriversPage() {
   ]);
   const subcoName = new Map(subcontractors.map((s) => [s.id, s.name]));
 
-  return (
-    <div className="mx-auto w-full max-w-3xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="text-lg font-semibold text-ink">Drivers</h1>
-          <p className="text-sm text-ink-3">Issue a badge for each driver to scan in.</p>
-        </div>
-        <Link
-          href="/drivers/new"
-          className="flex items-center gap-1.5 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-accent-strong"
-        >
-          <Plus className="h-4 w-4" />
-          New driver
-        </Link>
-      </div>
+  const enrolled = drivers.filter((d) => d.approvedDeviceId).length;
 
-      <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
-        {drivers.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 px-5 py-14 text-center">
-            <Users className="h-8 w-8 text-ink-3" strokeWidth={1.5} />
-            <p className="text-sm text-ink-3">No drivers yet. Add the first one to issue their badge.</p>
-          </div>
-        ) : (
-          <ul>
-            {drivers.map((d, i) => (
-              <li
-                key={d.id}
-                className={`flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 transition-colors hover:bg-wash ${
-                  i > 0 ? "border-t border-line" : ""
-                }`}
+  return (
+    <PageShell>
+      <PageHeader
+        eyebrow="Roster"
+        title="Drivers"
+        description="Issue a badge for each driver to scan in."
+        icon={<Users className="h-5 w-5" />}
+        actions={
+          <Link
+            href="/drivers/new"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-brand-ink shadow-[0_2px_12px_-2px_rgb(var(--brand-glow)/0.5)] transition-transform hover:scale-[1.02] active:scale-[0.99]"
+          >
+            <Plus className="h-4 w-4" />
+            New driver
+          </Link>
+        }
+      />
+
+      {drivers.length > 0 && (
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-ink-3">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
+            <Users className="h-3.5 w-3.5" />
+            <span className="font-mono text-ink">{drivers.length}</span> total
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
+            <Smartphone className="h-3.5 w-3.5" />
+            <span className="font-mono text-ink">{enrolled}</span> with a device
+          </span>
+        </div>
+      )}
+
+      {drivers.length === 0 ? (
+        <div className="rounded-2xl border border-line bg-paper shadow-sm">
+          <EmptyState
+            icon={<Users className="h-5 w-5" />}
+            title="No drivers yet"
+            description="Add the first driver to issue their badge and let them scan in."
+            action={
+              <Link
+                href="/drivers/new"
+                className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-brand-ink"
               >
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-ink">
-                    {d.firstName} {d.lastName}
-                  </p>
-                  {isGeneralAdmin && (
-                    <p className="text-xs text-ink-3">
-                      {subcoName.get(d.subcoId) ?? "Unknown subcontractor"}
-                    </p>
-                  )}
-                </div>
-                <div className="flex items-center gap-3">
-                  <DriverStatusToggle driverId={d.id} status={d.status} />
-                  {d.approvedDeviceId ? (
-                    <RevokeDeviceButton deviceId={d.approvedDeviceId} />
-                  ) : (
-                    <IssueBadgeButton driverId={d.id} />
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
+                <Plus className="h-4 w-4" />
+                New driver
+              </Link>
+            }
+          />
+        </div>
+      ) : (
+        <EntityGrid>
+          {drivers.map((d, i) => {
+            const name = `${d.firstName} ${d.lastName}`;
+            return (
+              <EntityCard
+                key={d.id}
+                index={i}
+                avatar={<InitialsAvatar name={name} tone={d.status === "active" ? "brand" : "neutral"} />}
+                title={name}
+                subtitle={isGeneralAdmin ? (subcoName.get(d.subcoId) ?? "Unknown subcontractor") : undefined}
+                dimmed={d.status !== "active"}
+                meta={
+                  <span className="inline-flex items-center gap-1.5">
+                    <Smartphone className="h-3.5 w-3.5" />
+                    {d.approvedDeviceId ? "Device enrolled" : "No device"}
+                  </span>
+                }
+                actions={
+                  <>
+                    <DriverStatusToggle driverId={d.id} status={d.status} />
+                    {d.approvedDeviceId ? (
+                      <RevokeDeviceButton deviceId={d.approvedDeviceId} />
+                    ) : (
+                      <IssueBadgeButton driverId={d.id} />
+                    )}
+                  </>
+                }
+              />
+            );
+          })}
+        </EntityGrid>
+      )}
+    </PageShell>
   );
 }

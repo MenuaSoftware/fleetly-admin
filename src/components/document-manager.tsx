@@ -184,7 +184,7 @@ export function DocumentManager({
             }}
             className={`flex-1 rounded-lg border px-3 py-2 text-center text-sm font-medium capitalize transition-colors ${
               entityKind === kind
-                ? "border-accent bg-accent-soft text-accent-strong"
+                ? "border-brand bg-brand-soft text-brand-strong"
                 : "border-line-2 text-ink-2 hover:bg-wash"
             }`}
           >
@@ -202,7 +202,7 @@ export function DocumentManager({
           setDocuments([]);
           loadDocuments(entityKind, id);
         }}
-        className="mb-6 w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+        className="mb-6 w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
       >
         <option value="">{`Select a ${entityKind}…`}</option>
         {entities.map((e) => (
@@ -281,7 +281,7 @@ export function DocumentManager({
               value={typeId}
               onChange={(e) => setTypeId(e.target.value)}
               disabled={isUploading}
-              className="mb-3 w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+              className="mb-3 w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
             >
               <option value="">Select a document type…</option>
               {availableTypes.map((t) => (
@@ -300,7 +300,7 @@ export function DocumentManager({
               value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
               disabled={isUploading}
-              className="mb-3 w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+              className="mb-3 w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
             />
 
             <input
@@ -321,7 +321,7 @@ export function DocumentManager({
               type="button"
               onClick={handleUpload}
               disabled={isUploading || !typeId || !expiryDate}
-              className="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+              className="w-full rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
             >
               {isUploading ? (uploadStage ?? "Uploading…") : "Upload"}
             </button>

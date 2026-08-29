@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
+import { Building2 } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { SubcontractorSummary } from "@/lib/types";
 import { SubcontractorManager } from "@/components/subcontractor-manager";
+import { PageHeader, PageShell } from "@/components/page-kit";
 
 /**
  * "Manage subcontractors" (docs/product-brief.md §19) — general admin
@@ -18,13 +20,15 @@ export default async function SubcontractorsPage() {
   const subcontractors = await apiFetch<SubcontractorSummary[]>("/subcontractors");
 
   return (
-    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-ink">Subcontractors</h1>
-        <p className="text-sm text-ink-3">Every client this fleet is run on behalf of.</p>
-      </div>
+    <PageShell width="medium">
+      <PageHeader
+        eyebrow="Administration"
+        title="Subcontractors"
+        description="Every client this fleet is run on behalf of."
+        icon={<Building2 className="h-5 w-5" />}
+      />
 
       <SubcontractorManager subcontractors={subcontractors} />
-    </div>
+    </PageShell>
   );
 }

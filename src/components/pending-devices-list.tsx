@@ -89,7 +89,7 @@ export function PendingDevicesList({ devices: initial }: { devices: PendingDevic
                 type="button"
                 onClick={() => handleApprove(d.id)}
                 disabled={isLoading}
-                className="rounded-lg bg-accent px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+                className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
               >
                 {isLoading && state.action === "approve" ? "Approving…" : "Approve"}
               </button>

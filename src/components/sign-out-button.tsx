@@ -24,7 +24,7 @@ export function SignOutButton({ iconOnly = false }: { iconOnly?: boolean }) {
         onClick={handleSignOut}
         disabled={loading}
         title="Sign out"
-        className="flex h-9 w-9 items-center justify-center rounded-lg border border-line-2 text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+        className="flex h-9 w-9 items-center justify-center rounded-lg border border-line-2 text-ink-2 transition-colors hover:bg-sunken hover:text-ink disabled:opacity-60"
       >
         <LogOut className={`h-4 w-4 ${loading ? "animate-pulse" : ""}`} />
       </button>
@@ -36,7 +36,7 @@ export function SignOutButton({ iconOnly = false }: { iconOnly?: boolean }) {
       type="button"
       onClick={handleSignOut}
       disabled={loading}
-      className="flex w-full items-center justify-center gap-2 rounded-lg border border-line-2 px-3 py-1.5 text-sm font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2 rounded-lg border border-line-2 px-3 py-1.5 text-sm font-medium text-ink-2 transition-colors hover:bg-sunken hover:text-ink disabled:opacity-60"
     >
       <LogOut className="h-3.5 w-3.5" />
       {loading ? "Signing out…" : "Sign out"}

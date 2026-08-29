@@ -1,8 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2, Wrench, CircleCheck } from "lucide-react";
 import { setVehicleStatusAction } from "@/app/vehicles/actions";
+import { StatusPill } from "@/components/page-kit";
+import { Button } from "@/components/ui/button";
 
+/**
+ * Owns both the control and the displayed status — see the note on
+ * driver-status-toggle.tsx for why the surrounding card deliberately
+ * does not render its own status pill alongside this.
+ */
 export function VehicleStatusToggle({
   vehicleId,
   status: initialStatus,
@@ -27,28 +35,16 @@ export function VehicleStatusToggle({
     setStatus(nextStatus);
   }
 
+  const active = status === "active";
+
   return (
-    <div className="flex items-center gap-2">
-      <span
-        className={`rounded-full px-2.5 py-1 font-mono text-xs ${
-          status === "active" ? "bg-ok-bg text-ok" : "bg-warn-bg text-warn"
-        }`}
-      >
-        {status === "active" ? "active" : "out of service"}
-      </span>
-      <button
-        type="button"
-        onClick={handleToggle}
-        disabled={isPending}
-        className="rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
-      >
-        {isPending
-          ? "Updating…"
-          : status === "active"
-            ? "Take out of service"
-            : "Return to service"}
-      </button>
-      {error && <span className="text-xs text-bad">{error}</span>}
+    <div className="flex flex-wrap items-center gap-2">
+      <StatusPill tone={active ? "ok" : "warn"}>{active ? "in service" : "out of service"}</StatusPill>
+      <Button type="button" variant="outline" size="sm" onClick={handleToggle} disabled={isPending}>
+        {isPending ? <Loader2 className="animate-spin" /> : active ? <Wrench /> : <CircleCheck />}
+        {isPending ? "Updating…" : active ? "Take out of service" : "Return to service"}
+      </Button>
+      {error && <span className="w-full text-xs text-bad">{error}</span>}
     </div>
   );
 }

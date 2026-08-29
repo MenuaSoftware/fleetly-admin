@@ -31,7 +31,7 @@ export function IssueBadgeButton({ driverId }: { driverId: string }) {
         <button
           type="button"
           onClick={() => navigator.clipboard.writeText(state.token)}
-          className="text-xs font-medium text-accent hover:text-accent-strong"
+          className="text-xs font-medium text-brand hover:text-brand-strong"
         >
           Copy
         </button>

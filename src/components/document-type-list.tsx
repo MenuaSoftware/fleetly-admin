@@ -98,7 +98,7 @@ export function DocumentTypeList({
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
                 disabled={busyId === t.id}
-                className="min-w-[10rem] flex-1 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-accent focus:outline-none disabled:bg-wash"
+                className="min-w-[10rem] flex-1 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-brand focus:outline-none disabled:bg-wash"
               />
               <input
                 type="number"
@@ -106,14 +106,14 @@ export function DocumentTypeList({
                 value={editDays}
                 onChange={(e) => setEditDays(e.target.value)}
                 disabled={busyId === t.id}
-                className="w-20 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-accent focus:outline-none disabled:bg-wash"
+                className="w-20 rounded-lg border border-line-2 bg-paper px-2.5 py-1.5 text-sm text-ink focus:border-brand focus:outline-none disabled:bg-wash"
               />
               <span className="text-xs text-ink-3">days</span>
               <button
                 type="button"
                 onClick={() => handleSave(t.id)}
                 disabled={busyId === t.id}
-                className="rounded-lg bg-accent px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-accent-strong disabled:opacity-60"
+                className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
               >
                 Save
               </button>

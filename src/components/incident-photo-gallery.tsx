@@ -36,7 +36,7 @@ export function IncidentPhotoGallery({ incidentId }: { incidentId: string }) {
         type="button"
         onClick={handleExpand}
         disabled={state.kind === "loading"}
-        className="text-xs font-medium text-accent hover:text-accent-strong disabled:opacity-60"
+        className="text-xs font-medium text-brand hover:text-brand-strong disabled:opacity-60"
       >
         {state.kind === "loading" ? "Loading photos…" : "View photos"}
       </button>

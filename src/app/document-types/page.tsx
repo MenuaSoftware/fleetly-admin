@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
+import { Copy, FileStack, Plus } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { DocumentTypeSummary, SubcontractorSummary } from "@/lib/types";
 import { CloneDocumentTypesButton } from "@/components/clone-document-types-button";
 import { CreateDocumentTypeForm } from "@/components/create-document-type-form";
 import { DocumentTypeList } from "@/components/document-type-list";
+import { PageHeader, PageShell, SectionCard } from "@/components/page-kit";
 
 /**
  * "Manage document types | no | no | yes" — general admin only, per
@@ -24,23 +26,31 @@ export default async function DocumentTypesPage() {
   const subcoName = new Map(subcontractors.map((s) => [s.id, s.name]));
 
   return (
-    <div className="mx-auto w-full max-w-2xl animate-slide-up px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-6">
-        <h1 className="text-lg font-semibold text-ink">Document types</h1>
-        <p className="text-sm text-ink-3">
-          What drivers and vehicles need on file, and how early to warn before it expires.
-        </p>
-      </div>
+    <PageShell width="medium">
+      <PageHeader
+        eyebrow="Administration"
+        title="Document types"
+        description="What drivers and vehicles need on file, and how early to warn before it expires."
+        icon={<FileStack className="h-5 w-5" />}
+      />
 
-      <div className="mb-6 overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
-        <DocumentTypeList types={types} subcoName={subcoName} />
-      </div>
+      <div className="flex flex-col gap-5">
+        <SectionCard title="Configured types" icon={<FileStack className="h-4 w-4" />} flush>
+          <DocumentTypeList types={types} subcoName={subcoName} />
+        </SectionCard>
 
-      <div className="mb-6">
-        <CreateDocumentTypeForm subcontractors={subcontractors} />
-      </div>
+        <SectionCard title="Add a type" icon={<Plus className="h-4 w-4" />}>
+          <CreateDocumentTypeForm subcontractors={subcontractors} />
+        </SectionCard>
 
-      <CloneDocumentTypesButton subcontractors={subcontractors} />
-    </div>
+        <SectionCard
+          title="Clone the defaults"
+          description="Copy every global type onto one subcontractor"
+          icon={<Copy className="h-4 w-4" />}
+        >
+          <CloneDocumentTypesButton subcontractors={subcontractors} />
+        </SectionCard>
+      </div>
+    </PageShell>
   );
 }

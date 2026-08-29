@@ -49,7 +49,7 @@ export function CreateDocumentTypeForm({ subcontractors }: { subcontractors: Sub
             <label
               key={v}
               className={`flex-1 cursor-pointer rounded-lg border px-3 py-2 text-center text-sm font-medium capitalize transition-colors ${
-                attachedTo === v ? "border-accent bg-accent-soft text-accent-strong" : "border-line-2 text-ink-2 hover:bg-wash"
+                attachedTo === v ? "border-brand bg-brand-soft text-brand-strong" : "border-line-2 text-ink-2 hover:bg-wash"
               }`}
             >
               <input
@@ -78,7 +78,7 @@ export function CreateDocumentTypeForm({ subcontractors }: { subcontractors: Sub
           required
           disabled={isPending}
           placeholder="e.g. Insurance certificate"
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         />
       </div>
 
@@ -94,7 +94,7 @@ export function CreateDocumentTypeForm({ subcontractors }: { subcontractors: Sub
           required
           disabled={isPending}
           defaultValue={30}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         />
       </div>
 
@@ -108,7 +108,7 @@ export function CreateDocumentTypeForm({ subcontractors }: { subcontractors: Sub
           value={scope === "global" ? "" : scope}
           onChange={(e) => setScope(e.target.value || "global")}
           disabled={isPending}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         >
           <option value="">Global default</option>
           {subcontractors.map((s) => (
@@ -128,7 +128,7 @@ export function CreateDocumentTypeForm({ subcontractors }: { subcontractors: Sub
       <button
         type="submit"
         disabled={isPending}
-        className="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+        className="w-full rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
       >
         {isPending ? "Adding…" : "Add document type"}
       </button>

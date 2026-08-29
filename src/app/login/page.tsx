@@ -39,20 +39,33 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-wash px-4">
-      <div className="w-full max-w-sm animate-slide-up">
-        <div className="mb-8 text-center">
-          <span className="font-sans text-2xl font-extrabold tracking-tight text-ink">
-            Fleetly
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-wash px-4">
+      {/* Ambient brand wash — the signed-out screen is the one surface
+          with room for atmosphere, and it sets the tone before the
+          dense dashboard behind it. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="grid-plane absolute inset-0 opacity-[0.45]" />
+        <div className="absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 animate-aurora rounded-full bg-brand/15 blur-3xl" />
+        <div
+          className="absolute -bottom-40 right-1/4 h-80 w-80 animate-aurora rounded-full bg-viz-2/12 blur-3xl"
+          style={{ animationDelay: "-8s" }}
+        />
+      </div>
+
+      <div className="relative w-full max-w-sm animate-slide-up">
+        <div className="mb-8 flex items-center justify-center gap-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand font-display text-base font-bold text-brand-ink shadow-[0_2px_12px_-2px_rgb(var(--brand-glow)/0.6)]">
+            F
           </span>
+          <span className="font-display text-2xl font-bold tracking-tight text-ink">Fleetly</span>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-line bg-paper p-8 shadow-lg"
+          className="rounded-3xl border border-line bg-paper p-8 shadow-lg"
           noValidate
         >
-          <h1 className="mb-1 text-lg font-semibold text-ink">Sign in</h1>
+          <h1 className="mb-1 font-display text-xl font-semibold text-ink">Sign in</h1>
           <p className="mb-6 text-sm text-ink-3">Dispatcher and admin access.</p>
 
           <div className="mb-4">
@@ -66,7 +79,7 @@ export default function LoginPage() {
               autoComplete="email"
               required
               disabled={status === "loading"}
-              className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+              className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
               placeholder="you@subcontractor.com"
             />
           </div>
@@ -82,7 +95,7 @@ export default function LoginPage() {
               autoComplete="current-password"
               required
               disabled={status === "loading"}
-              className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash disabled:text-ink-3"
+              className="w-full rounded-xl border border-line-2 bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash disabled:text-ink-3"
               placeholder="••••••••"
             />
           </div>
@@ -99,7 +112,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="flex w-full items-center justify-center rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex w-full items-center justify-center rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-brand-ink shadow-[0_2px_12px_-2px_rgb(var(--brand-glow)/0.5)] transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:scale-100"
           >
             {status === "loading" ? (
               <>

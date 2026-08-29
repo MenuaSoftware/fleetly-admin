@@ -1,9 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2, UserCheck, UserX } from "lucide-react";
 import { setDriverStatusAction } from "@/app/drivers/actions";
+import { StatusPill } from "@/components/page-kit";
+import { Button } from "@/components/ui/button";
 
-/** Same toggle-with-local-state pattern as vehicle-status-toggle.tsx. */
+/**
+ * Same toggle-with-local-state pattern as vehicle-status-toggle.tsx.
+ *
+ * This component owns the *displayed* status as well as the control,
+ * deliberately: it holds the live value after a toggle, so a second
+ * status pill rendered by the surrounding card would go stale the
+ * moment someone clicks. One source, one pill.
+ */
 export function DriverStatusToggle({
   driverId,
   status: initialStatus,
@@ -28,24 +38,22 @@ export function DriverStatusToggle({
     setStatus(nextStatus);
   }
 
+  const active = status === "active";
+
   return (
-    <div className="flex items-center gap-2">
-      <span
-        className={`rounded-full px-2.5 py-1 font-mono text-xs ${
-          status === "active" ? "bg-ok-bg text-ok" : "bg-wash text-ink-3"
-        }`}
-      >
-        {status}
-      </span>
-      <button
-        type="button"
-        onClick={handleToggle}
-        disabled={isPending}
-        className="rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
-      >
-        {isPending ? "Updating…" : status === "active" ? "Deactivate" : "Reactivate"}
-      </button>
-      {error && <span className="text-xs text-bad">{error}</span>}
+    <div className="flex flex-wrap items-center gap-2">
+      <StatusPill tone={active ? "ok" : "neutral"}>{status}</StatusPill>
+      <Button type="button" variant="outline" size="sm" onClick={handleToggle} disabled={isPending}>
+        {isPending ? (
+          <Loader2 className="animate-spin" />
+        ) : active ? (
+          <UserX />
+        ) : (
+          <UserCheck />
+        )}
+        {isPending ? "Updating…" : active ? "Deactivate" : "Reactivate"}
+      </Button>
+      {error && <span className="w-full text-xs text-bad">{error}</span>}
     </div>
   );
 }

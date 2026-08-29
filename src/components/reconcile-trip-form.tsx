@@ -60,7 +60,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
           value={driverId}
           onChange={(e) => setDriverId(e.target.value)}
           disabled={isSubmitting}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         >
           <option value="">Select a driver…</option>
           {drivers.map((d) => (
@@ -80,7 +80,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
           value={vehicleId}
           onChange={(e) => setVehicleId(e.target.value)}
           disabled={isSubmitting}
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         >
           <option value="">Select a vehicle…</option>
           {vehicles.map((v) => (
@@ -103,7 +103,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
             value={startOdometer}
             onChange={(e) => setStartOdometer(e.target.value)}
             disabled={isSubmitting}
-            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
           />
         </div>
         <div>
@@ -117,7 +117,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
             value={endOdometer}
             onChange={(e) => setEndOdometer(e.target.value)}
             disabled={isSubmitting}
-            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
           />
         </div>
       </div>
@@ -133,7 +133,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
             value={startedAt}
             onChange={(e) => setStartedAt(e.target.value)}
             disabled={isSubmitting}
-            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
           />
         </div>
         <div>
@@ -146,7 +146,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
             value={endedAt}
             onChange={(e) => setEndedAt(e.target.value)}
             disabled={isSubmitting}
-            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+            className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
           />
         </div>
       </div>
@@ -162,7 +162,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
           disabled={isSubmitting}
           rows={3}
           placeholder="e.g. App outage the morning of 24 Aug — recorded on paper at the depot."
-          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 disabled:bg-wash"
+          className="w-full rounded-lg border border-line-2 bg-paper px-3 py-2 text-sm text-ink placeholder:text-ink-3 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20 disabled:bg-wash"
         />
       </div>
 
@@ -175,7 +175,7 @@ export function ReconcileTripForm({ drivers, vehicles }: { drivers: DriverSummar
       <button
         type="submit"
         disabled={isSubmitting || !canSubmit}
-        className="w-full rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-strong disabled:opacity-60"
+        className="w-full rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
       >
         {isSubmitting ? "Reconciling…" : "Reconcile trip"}
       </button>
