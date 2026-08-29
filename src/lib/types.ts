@@ -130,6 +130,18 @@ export interface RetentionEnforcementResult {
   affected: number;
 }
 
+export interface DocumentSummary {
+  id: string;
+  typeId: string;
+  typeName: string;
+  vehicleId: string | null;
+  driverId: string | null;
+  status: "valid" | "expiring_soon" | "expired";
+  expiryDate: string;
+  uploadStatus: "pending" | "confirmed";
+  uploadedAt: string | null;
+}
+
 export interface NotificationSummary {
   id: string;
   type: "incident" | "document_expiry";
