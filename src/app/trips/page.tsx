@@ -53,9 +53,17 @@ export default async function TripsPage({
     <main className="flex min-h-screen flex-col">
       <AppHeader email={user?.email} isGeneralAdmin={me?.role === "general_admin"} />
       <div className="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
-        <div className="mb-6">
-          <h1 className="text-lg font-semibold text-ink">Trips</h1>
-          <p className="text-sm text-ink-3">Mileage, timestamps, and photographic evidence.</p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-semibold text-ink">Trips</h1>
+            <p className="text-sm text-ink-3">Mileage, timestamps, and photographic evidence.</p>
+          </div>
+          <Link
+            href="/trips/reconcile"
+            className="rounded-xl border border-line-2 px-4 py-2.5 text-sm font-medium text-ink-2 transition-colors hover:bg-wash"
+          >
+            Reconcile a trip
+          </Link>
         </div>
 
         <div className="mb-4 flex gap-2">
