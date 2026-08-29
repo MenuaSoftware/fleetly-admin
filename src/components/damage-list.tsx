@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { transitionDamageAction } from "@/app/trips/[id]/actions";
 import { TripDamageSummary } from "@/lib/types";
+import { DamagePhotoGallery } from "@/components/damage-photo-gallery";
 
 const VIEW_LABEL: Record<string, string> = {
   front: "Front",
@@ -56,6 +57,9 @@ export function DamageList({ vehicleId, damage: initial }: { vehicleId: string; 
               <span className={`mt-1 inline-block rounded-full px-2 py-0.5 font-mono text-xs ${STATUS_BADGE[d.status] ?? "bg-wash text-ink-2"}`}>
                 {d.status}
               </span>
+              <div className="mt-1.5">
+                <DamagePhotoGallery vehicleId={vehicleId} damageId={d.id} />
+              </div>
             </div>
             <div className="flex shrink-0 gap-2">
               {d.status === "reported" && (

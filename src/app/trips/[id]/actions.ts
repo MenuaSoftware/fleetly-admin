@@ -157,3 +157,47 @@ export async function amendTripAction(
     return { error: message };
   }
 }
+
+export interface DamagePhotoSummary {
+  id: string;
+  status: string;
+  uploadedAt: string | null;
+}
+
+export interface ListDamagePhotosResult {
+  photos?: DamagePhotoSummary[];
+  error?: string;
+}
+
+/**
+ * damage-photo.controller.ts's list()/getViewUrl() — a dispatcher
+ * deciding accept/dismiss/repair on a damage report needs to see the
+ * evidence, not just its count. Fetched on demand (an expand click),
+ * not upfront for every damage row, same reasoning as
+ * trip-photo-viewer.tsx's own per-photo on-demand fetch.
+ */
+export async function listDamagePhotosAction(vehicleId: string, damageId: string): Promise<ListDamagePhotosResult> {
+  try {
+    const photos = await apiFetch<DamagePhotoSummary[]>(`/vehicles/${vehicleId}/damage/${damageId}/photos`);
+    return { photos };
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not load photos for this damage report.";
+    return { error: message };
+  }
+}
+
+export async function getDamagePhotoViewUrlAction(
+  vehicleId: string,
+  damageId: string,
+  photoId: string,
+): Promise<PhotoViewUrlResult> {
+  try {
+    const result = await apiFetch<{ url: string }>(
+      `/vehicles/${vehicleId}/damage/${damageId}/photos/${photoId}/view-url`,
+    );
+    return { url: result.url };
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not load this photo.";
+    return { error: message };
+  }
+}
