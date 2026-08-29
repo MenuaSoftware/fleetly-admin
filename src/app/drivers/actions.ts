@@ -52,6 +52,26 @@ export async function setDriverStatusAction(
   }
 }
 
+export interface RevokeDeviceResult {
+  error?: string;
+}
+
+/**
+ * device.controller.ts's revoke() — the "lost phone" flow, distinct
+ * from /devices' own reject() (a still-pending enrollment attempt).
+ * Lives here, not devices/actions.ts, since the entry point is a
+ * driver's row on this page, not the pending-devices queue.
+ */
+export async function revokeDeviceAction(deviceId: string): Promise<RevokeDeviceResult> {
+  try {
+    await apiFetch(`/devices/${deviceId}/revoke`, { method: "POST" });
+    return {};
+  } catch (err) {
+    const message = err instanceof ApiError ? err.message : "Could not revoke this device.";
+    return { error: message };
+  }
+}
+
 export interface CreateDriverState {
   error: string | null;
 }

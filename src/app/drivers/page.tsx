@@ -5,6 +5,7 @@ import { StaffMe, DriverSummary, SubcontractorSummary } from "@/lib/types";
 import { AppHeader } from "@/components/app-header";
 import { IssueBadgeButton } from "@/components/issue-badge-button";
 import { DriverStatusToggle } from "@/components/driver-status-toggle";
+import { RevokeDeviceButton } from "@/components/revoke-device-button";
 
 export default async function DriversPage() {
   const supabase = await createClient();
@@ -68,7 +69,11 @@ export default async function DriversPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <DriverStatusToggle driverId={d.id} status={d.status} />
-                    <IssueBadgeButton driverId={d.id} />
+                    {d.approvedDeviceId ? (
+                      <RevokeDeviceButton deviceId={d.approvedDeviceId} />
+                    ) : (
+                      <IssueBadgeButton driverId={d.id} />
+                    )}
                   </div>
                 </li>
               ))}

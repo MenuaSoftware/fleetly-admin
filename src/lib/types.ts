@@ -25,6 +25,7 @@ export interface DriverSummary {
   lastName: string;
   status: "active" | "inactive";
   subcoId: string;
+  approvedDeviceId: string | null;
 }
 
 export interface VehicleSummary {
