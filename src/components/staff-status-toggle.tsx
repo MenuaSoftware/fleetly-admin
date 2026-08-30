@@ -52,7 +52,7 @@ export function StaffStatusToggle({
           type="button"
           onClick={handleToggle}
           disabled={isPending}
-          className="rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+          className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
         >
           {isPending ? "Updating…" : status === "active" ? "Deactivate" : "Reactivate"}
         </button>

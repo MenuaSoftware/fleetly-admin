@@ -113,7 +113,7 @@ export function DocumentTypeList({
                 type="button"
                 onClick={() => handleSave(t.id)}
                 disabled={busyId === t.id}
-                className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
+                className="inline-flex min-h-8 items-center rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
               >
                 Save
               </button>
@@ -121,7 +121,7 @@ export function DocumentTypeList({
                 type="button"
                 onClick={() => setEditingId(null)}
                 disabled={busyId === t.id}
-                className="rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 hover:bg-wash disabled:opacity-60"
+                className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 hover:bg-wash disabled:opacity-60"
               >
                 Cancel
               </button>
@@ -140,7 +140,7 @@ export function DocumentTypeList({
                   type="button"
                   onClick={() => startEdit(t)}
                   disabled={busyId === t.id}
-                  className="rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+                  className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
                 >
                   Edit
                 </button>
@@ -148,7 +148,7 @@ export function DocumentTypeList({
                   type="button"
                   onClick={() => handleDelete(t.id)}
                   disabled={busyId === t.id}
-                  className="rounded-lg border border-bad/30 px-2.5 py-1.5 text-xs font-medium text-bad transition-colors hover:bg-bad-bg disabled:opacity-60"
+                  className="inline-flex min-h-8 items-center rounded-lg border border-bad/30 px-2.5 py-1.5 text-xs font-medium text-bad transition-colors hover:bg-bad-bg disabled:opacity-60"
                 >
                   {busyId === t.id ? "…" : "Delete"}
                 </button>

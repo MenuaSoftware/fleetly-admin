@@ -45,7 +45,7 @@ export function IssueBadgeButton({ driverId }: { driverId: string }) {
         type="button"
         onClick={handleIssue}
         disabled={state.kind === "loading"}
-        className="rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+        className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
       >
         {state.kind === "loading" ? "Issuing…" : "Issue badge"}
       </button>

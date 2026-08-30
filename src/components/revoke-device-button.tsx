@@ -35,7 +35,7 @@ export function RevokeDeviceButton({ deviceId }: { deviceId: string }) {
         type="button"
         onClick={handleRevoke}
         disabled={state.kind === "loading"}
-        className="rounded-lg border border-bad/30 px-3 py-1.5 text-xs font-medium text-bad transition-colors hover:bg-bad-bg disabled:opacity-60"
+        className="inline-flex min-h-8 items-center rounded-lg border border-bad/30 px-3 py-1.5 text-xs font-medium text-bad transition-colors hover:bg-bad-bg disabled:opacity-60"
       >
         {state.kind === "loading" ? "Revoking…" : "Revoke device"}
       </button>

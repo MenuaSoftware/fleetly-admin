@@ -135,7 +135,7 @@ export function SidebarNav({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.6, opacity: 0 }}
               transition={springSnappy}
-              className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 font-mono text-[0.6875rem] leading-none text-brand-ink"
+              className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-brand px-1.5 font-mono text-micro leading-none text-brand-ink"
             >
               {badge}
             </motion.span>
@@ -167,7 +167,7 @@ export function SidebarNav({
           {collapsed ? (
             <div className="mx-auto mb-1 h-px w-6 bg-line" />
           ) : (
-            <p className="px-3 pb-1 font-mono text-[0.65rem] font-medium tracking-[0.14em] text-ink-3 uppercase">
+            <p className="px-3 pb-1 font-mono text-micro font-medium tracking-[0.14em] text-ink-3 uppercase">
               Administration
             </p>
           )}

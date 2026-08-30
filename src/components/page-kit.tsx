@@ -113,7 +113,7 @@ export function PageHeader({
         )}
         <div className="min-w-0">
           {eyebrow && (
-            <p className="mb-1 font-mono text-[0.68rem] font-medium tracking-[0.14em] text-ink-3 uppercase">
+            <p className="mb-1 font-mono text-micro font-medium tracking-[0.14em] text-ink-3 uppercase">
               {eyebrow}
             </p>
           )}
@@ -187,7 +187,7 @@ export function StatTile({
           </span>
         )}
         {hint && (
-          <span className="font-mono text-[0.65rem] tracking-wide text-ink-3 uppercase">{hint}</span>
+          <span className="font-mono text-micro tracking-wide text-ink-3 uppercase">{hint}</span>
         )}
       </div>
       <AnimatedNumber
@@ -309,7 +309,7 @@ export function StatusPill({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-[0.68rem] font-medium",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-micro font-medium",
         TONE_SURFACE[tone],
         className,
       )}

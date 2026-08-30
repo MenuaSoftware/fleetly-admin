@@ -81,7 +81,7 @@ export function PendingDevicesList({ devices: initial }: { devices: PendingDevic
                 type="button"
                 onClick={() => handleReject(d.id)}
                 disabled={isLoading}
-                className="rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+                className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
               >
                 {isLoading && state.action === "reject" ? "Rejecting…" : "Reject"}
               </button>
@@ -89,7 +89,7 @@ export function PendingDevicesList({ devices: initial }: { devices: PendingDevic
                 type="button"
                 onClick={() => handleApprove(d.id)}
                 disabled={isLoading}
-                className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
+                className="inline-flex min-h-8 items-center rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
               >
                 {isLoading && state.action === "approve" ? "Approving…" : "Approve"}
               </button>

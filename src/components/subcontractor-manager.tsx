@@ -86,7 +86,7 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
                       type="button"
                       onClick={() => handleSave(s.id)}
                       disabled={busyId === s.id}
-                      className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
+                      className="inline-flex min-h-8 items-center rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
                     >
                       Save
                     </button>
@@ -94,7 +94,7 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
                       type="button"
                       onClick={() => setEditingId(null)}
                       disabled={busyId === s.id}
-                      className="rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 hover:bg-wash disabled:opacity-60"
+                      className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 hover:bg-wash disabled:opacity-60"
                     >
                       Cancel
                     </button>
@@ -103,7 +103,10 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
                   <div className="group/row flex items-center justify-between gap-3">
                     <Link
                       href={`/subcontractors/${s.id}`}
-                      className="flex min-w-0 flex-1 items-center gap-2 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+                      // min-h so the link is a usable tap target in its own
+                      // right: the row's padding belongs to the <li>, so
+                      // without this the anchor is only as tall as its text.
+                      className="flex min-h-8 min-w-0 flex-1 items-center gap-2 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
                     >
                       <Building2 className="h-4 w-4 shrink-0 text-ink-3 transition-colors group-hover/row:text-brand" />
                       <span className="truncate text-sm font-medium text-ink">{s.name}</span>
@@ -112,7 +115,7 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
                     <button
                       type="button"
                       onClick={() => startEdit(s)}
-                      className="shrink-0 rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-sunken hover:text-ink"
+                      className="shrink-0 inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-sunken hover:text-ink"
                     >
                       Rename
                     </button>

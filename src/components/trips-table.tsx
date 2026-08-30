@@ -95,7 +95,7 @@ export function TripsTable({ trips, filter }: { trips: TripSummary[]; filter: Tr
               <th
                 key={h || i}
                 className={cn(
-                  "px-5 py-2.5 font-mono text-[0.65rem] font-medium tracking-[0.12em] text-ink-3 uppercase",
+                  "px-5 py-2.5 font-mono text-micro font-medium tracking-[0.12em] text-ink-3 uppercase",
                   h === "Distance" && "text-right",
                 )}
               >

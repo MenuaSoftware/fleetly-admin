@@ -71,7 +71,7 @@ export function AccountMenu({
           aria-label="Account menu"
           className="flex h-9 items-center gap-2 rounded-xl border border-line bg-paper pr-2.5 pl-1.5 transition-colors hover:border-line-2 hover:bg-sunken"
         >
-          <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-soft font-display text-[0.7rem] font-semibold text-brand">
+          <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-brand-soft font-display text-micro font-semibold text-brand">
             {initials(email)}
           </span>
           <span className="hidden max-w-[10rem] truncate text-xs text-ink-2 lg:inline">{email}</span>

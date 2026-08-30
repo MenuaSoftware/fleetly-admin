@@ -124,7 +124,7 @@ export default async function SubcontractorDetailPage({
           actions={
             <Link
               href="/drivers"
-              className="rounded-lg px-2 py-1 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
+              className="inline-flex min-h-8 items-center rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
             >
               Manage
             </Link>
@@ -163,7 +163,7 @@ export default async function SubcontractorDetailPage({
           actions={
             <Link
               href="/vehicles"
-              className="rounded-lg px-2 py-1 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
+              className="inline-flex min-h-8 items-center rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
             >
               Manage
             </Link>
@@ -249,7 +249,7 @@ export default async function SubcontractorDetailPage({
           actions={
             <Link
               href="/document-types"
-              className="rounded-lg px-2 py-1 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
+              className="inline-flex min-h-8 items-center rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
             >
               Manage
             </Link>

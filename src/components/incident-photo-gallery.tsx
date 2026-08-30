@@ -36,7 +36,10 @@ export function IncidentPhotoGallery({ incidentId }: { incidentId: string }) {
         type="button"
         onClick={handleExpand}
         disabled={state.kind === "loading"}
-        className="text-xs font-medium text-brand hover:text-brand-strong disabled:opacity-60"
+        // min-h + negative inline margin: a bare text button is only as tall
+        // as its line box (16px), which is not a usable tap target. The
+        // padding buys the height; -mx pulls it back to its old alignment.
+        className="-mx-1.5 inline-flex min-h-8 items-center rounded-lg px-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft hover:text-brand-strong disabled:opacity-60"
       >
         {state.kind === "loading" ? "Loading photos…" : "View photos"}
       </button>

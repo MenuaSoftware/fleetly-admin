@@ -68,7 +68,7 @@ export function DamageList({ vehicleId, damage: initial }: { vehicleId: string; 
                     type="button"
                     onClick={() => handleTransition(d.id, "dismiss")}
                     disabled={pendingId === d.id}
-                    className="rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+                    className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
                   >
                     Dismiss
                   </button>
@@ -76,7 +76,7 @@ export function DamageList({ vehicleId, damage: initial }: { vehicleId: string; 
                     type="button"
                     onClick={() => handleTransition(d.id, "accept")}
                     disabled={pendingId === d.id}
-                    className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
+                    className="inline-flex min-h-8 items-center rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
                   >
                     Accept
                   </button>
@@ -87,7 +87,7 @@ export function DamageList({ vehicleId, damage: initial }: { vehicleId: string; 
                   type="button"
                   onClick={() => handleTransition(d.id, "repair")}
                   disabled={pendingId === d.id}
-                  className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
+                  className="inline-flex min-h-8 items-center rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-strong disabled:opacity-60"
                 >
                   Mark repaired
                 </button>

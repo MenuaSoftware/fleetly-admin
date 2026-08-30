@@ -100,7 +100,7 @@ export function RetentionPolicyManager({ policies: initial }: { policies: Retent
                       type="button"
                       onClick={() => handleSave(dataType)}
                       disabled={busyType === dataType}
-                      className="rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
+                      className="inline-flex min-h-8 items-center rounded-lg bg-brand px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-brand-strong disabled:opacity-60"
                     >
                       Save
                     </button>
@@ -108,7 +108,7 @@ export function RetentionPolicyManager({ policies: initial }: { policies: Retent
                       type="button"
                       onClick={() => setEditingType(null)}
                       disabled={busyType === dataType}
-                      className="rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 hover:bg-wash disabled:opacity-60"
+                      className="inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 hover:bg-wash disabled:opacity-60"
                     >
                       Cancel
                     </button>
@@ -124,7 +124,7 @@ export function RetentionPolicyManager({ policies: initial }: { policies: Retent
                     <button
                       type="button"
                       onClick={() => startEdit(dataType)}
-                      className="shrink-0 rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash"
+                      className="shrink-0 inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash"
                     >
                       {policy ? "Edit" : "Configure"}
                     </button>

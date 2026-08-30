@@ -96,7 +96,7 @@ export function TripShareManager({
                   type="button"
                   onClick={() => handleRevoke(s)}
                   disabled={busyShareId === s.id}
-                  className="shrink-0 rounded-lg border border-bad/30 px-2.5 py-1.5 text-xs font-medium text-bad transition-colors hover:bg-bad-bg disabled:opacity-60"
+                  className="shrink-0 inline-flex min-h-8 items-center rounded-lg border border-bad/30 px-2.5 py-1.5 text-xs font-medium text-bad transition-colors hover:bg-bad-bg disabled:opacity-60"
                 >
                   {busyShareId === s.id ? "…" : "Revoke"}
                 </button>

@@ -159,7 +159,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
           actions={
             <Link
               href="/documents"
-              className="rounded-lg px-2 py-1 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
+              className="inline-flex min-h-8 items-center rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
             >
               Manage
             </Link>

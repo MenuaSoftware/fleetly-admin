@@ -195,7 +195,7 @@ export function GlobalSearch({ isGeneralAdmin }: { isGeneralAdmin: boolean }) {
       >
         <Search className="h-4 w-4 shrink-0 transition-colors group-hover:text-ink-2" />
         <span className="flex-1 truncate">Search…</span>
-        <kbd className="hidden shrink-0 rounded-md border border-line-2 bg-sunken px-1.5 py-0.5 font-mono text-[0.65rem] text-ink-3 sm:inline-block">
+        <kbd className="hidden shrink-0 rounded-md border border-line-2 bg-sunken px-1.5 py-0.5 font-mono text-micro text-ink-3 sm:inline-block">
           ⌘K
         </kbd>
       </button>

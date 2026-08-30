@@ -233,6 +233,14 @@
      being a novelty face), Inter carries dense UI text where legibility
      at 12–14px is what actually matters, JetBrains Mono stays reserved
      for real data — plates, odometers, ids. */
+  /* One micro size for eyebrows, metric labels and status pills. There
+     were four arbitrary values (0.6 / 0.65 / 0.68 / 0.7rem) doing this
+     same job, and the smallest of them rendered at 9.6px — genuinely
+     hard to read on a phone. 11px is the floor a label can sit at and
+     still be read at arm's length. */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: calc(1 / 0.6875);
+
   --font-sans: var(--font-inter);
   --font-display: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);

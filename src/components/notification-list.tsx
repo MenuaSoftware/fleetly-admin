@@ -99,7 +99,7 @@ export function NotificationList({ notifications: initial }: { notifications: No
                 type="button"
                 onClick={() => handleMarkRead(n.id)}
                 disabled={busyId === n.id}
-                className="shrink-0 rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
+                className="shrink-0 inline-flex min-h-8 items-center rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash disabled:opacity-60"
               >
                 {busyId === n.id ? "…" : "Mark read"}
               </button>

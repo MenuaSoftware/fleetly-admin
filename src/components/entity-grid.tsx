@@ -132,7 +132,7 @@ export function CardMetrics({
     <div className="grid w-full grid-cols-3 gap-2">
       {items.map((m) => (
         <div key={m.label} className="min-w-0">
-          <p className="flex items-center gap-1 text-[0.65rem] tracking-wide text-ink-3 uppercase">
+          <p className="flex items-center gap-1 text-micro tracking-wide text-ink-3 uppercase">
             {m.icon}
             <span className="truncate">{m.label}</span>
           </p>

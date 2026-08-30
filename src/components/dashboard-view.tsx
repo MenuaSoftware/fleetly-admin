@@ -124,7 +124,7 @@ export function DashboardView({ data, email }: { data: DashboardData; email?: st
           <div>
             <div className="mb-2 flex items-center gap-2">
               <LiveDot tone="ok" />
-              <span className="font-mono text-[0.68rem] tracking-[0.14em] text-ink-3 uppercase">
+              <span className="font-mono text-micro tracking-[0.14em] text-ink-3 uppercase">
                 Fleet live
               </span>
             </div>
@@ -211,7 +211,7 @@ export function DashboardView({ data, email }: { data: DashboardData; email?: st
           actions={
             <Link
               href="/trips"
-              className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
+              className="inline-flex min-h-8 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
             >
               All trips
               <ArrowRight className="h-3 w-3" />
@@ -294,7 +294,7 @@ export function DashboardView({ data, email }: { data: DashboardData; email?: st
                 <p className="font-mono text-lg leading-none font-semibold text-ink">
                   {vehicles?.length ?? "—"}
                 </p>
-                <p className="mt-1 text-[0.7rem] text-ink-3">Vehicles</p>
+                <p className="mt-1 text-micro text-ink-3">Vehicles</p>
               </Link>
               <Link
                 href="/drivers"
@@ -304,7 +304,7 @@ export function DashboardView({ data, email }: { data: DashboardData; email?: st
                 <p className="font-mono text-lg leading-none font-semibold text-ink">
                   {drivers?.length ?? "—"}
                 </p>
-                <p className="mt-1 text-[0.7rem] text-ink-3">Drivers</p>
+                <p className="mt-1 text-micro text-ink-3">Drivers</p>
               </Link>
             </div>
           </div>
@@ -319,7 +319,7 @@ export function DashboardView({ data, email }: { data: DashboardData; email?: st
           actions={
             <Link
               href="/incidents"
-              className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
+              className="inline-flex min-h-8 items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-brand transition-colors hover:bg-brand-soft"
             >
               All incidents
               <ArrowRight className="h-3 w-3" />
