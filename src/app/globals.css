@@ -25,6 +25,10 @@
 
 :root {
   /* --- surfaces --- */
+  /* Four surface levels, outermost first. --shell is the plane the
+     floating sidebar and content panel sit on; it has to be darker than
+     --wash or the inset shell reads as a seam rather than a gap. */
+  --shell: #eaeaf0;
   --paper: #ffffff;
   --wash: #f7f7fa;
   --raised: #ffffff;
@@ -132,6 +136,7 @@
 .dark {
   /* Cool, slightly violet-tinted darks — a flat neutral gray reads as
      "unfinished dark mode"; the hue shift is what makes it feel built. */
+  --shell: #050508;
   --paper: #14141b;
   --wash: #0a0a0f;
   --raised: #1c1c26;
@@ -188,6 +193,7 @@
 }
 
 @theme inline {
+  --color-shell: var(--shell);
   --color-paper: var(--paper);
   --color-wash: var(--wash);
   --color-raised: var(--raised);

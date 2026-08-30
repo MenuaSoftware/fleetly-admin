@@ -130,13 +130,21 @@ export function AppShell({
           toast slides in underneath the sticky header and its first line
           is hidden behind the frosted bar. */}
       <Toaster position="top-right" offset="4.75rem" />
-      <div className="flex h-screen overflow-hidden bg-wash">
+      {/*
+        Floating shell: the sidebar and the content column are two
+        rounded panels sitting on --shell, rather than full-bleed regions
+        divided by hairlines. The gutter is what makes the rounding read;
+        without it the radius would just clip against the viewport edge.
+        Collapsed to a flush layout below `md`, where 12px of gutter on
+        each side is width a phone cannot spare.
+      */}
+      <div className="flex h-screen gap-0 overflow-hidden bg-shell p-0 md:gap-3 md:p-3">
         {/* Desktop sidebar */}
         <motion.aside
           initial={false}
           animate={{ width: isCollapsed ? "var(--sidebar-w-collapsed)" : "var(--sidebar-w)" }}
           transition={reduced ? { duration: 0 } : springSoft}
-          className="hidden shrink-0 flex-col border-r border-line bg-paper md:flex"
+          className="hidden shrink-0 flex-col overflow-hidden rounded-2xl border border-line bg-paper shadow-sm md:flex"
         >
           <div
             className={cn(
@@ -199,7 +207,7 @@ export function AppShell({
         </AnimatePresence>
 
         {/* Content column */}
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden border-line bg-wash md:rounded-2xl md:border md:shadow-sm">
           <header className="glass sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 border-b border-line px-4 md:px-6">
             <button
               type="button"
