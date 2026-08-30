@@ -8,6 +8,9 @@ import { ChevronsLeft, ChevronsRight, Menu, X } from "lucide-react";
 import { SidebarNav } from "@/components/sidebar-nav";
 import { GlobalSearch } from "@/components/global-search";
 import { AccountMenu } from "@/components/account-menu";
+import { NotificationBell } from "@/components/notification-bell";
+import { RouteProgressProvider } from "@/components/route-progress";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { drawerPanel, drawerScrim, springSoft } from "@/lib/motion";
@@ -122,6 +125,11 @@ export function AppShell({
 
   return (
     <TooltipProvider delayDuration={200}>
+      <RouteProgressProvider>
+      {/* Offset clear of the 4rem topbar: at the default top-right the
+          toast slides in underneath the sticky header and its first line
+          is hidden behind the frosted bar. */}
+      <Toaster position="top-right" offset="4.75rem" />
       <div className="flex h-screen overflow-hidden bg-wash">
         {/* Desktop sidebar */}
         <motion.aside
@@ -207,6 +215,7 @@ export function AppShell({
 
             <div className="ml-auto flex items-center gap-2">
               <GlobalSearch isGeneralAdmin={isGeneralAdmin} />
+              <NotificationBell />
               <AccountMenu email={email} isGeneralAdmin={isGeneralAdmin} />
             </div>
           </header>
@@ -226,6 +235,7 @@ export function AppShell({
           </main>
         </div>
       </div>
+      </RouteProgressProvider>
     </TooltipProvider>
   );
 }

@@ -157,16 +157,21 @@ export function StatTile({
       whileTap={reduced || !href ? undefined : { scale: 0.995 }}
       transition={springSoft}
       className={cn(
-        "spotlight group/card relative h-full rounded-2xl border border-line bg-paper p-4 shadow-sm",
+        // overflow-hidden so the tone bar below is clipped by the card's
+        // own corner radius. Without it the bar has to round itself, and
+        // a 1rem radius on a 3px-tall element renders as a curved sliver
+        // that pinches away from the edges — which is exactly what it
+        // looked like before.
+        "spotlight group/card relative h-full overflow-hidden rounded-2xl border border-line bg-paper p-4 shadow-sm",
         href && "transition-[box-shadow,border-color] hover:border-line-2 hover:shadow-lg",
         className,
       )}
     >
       {spot.enabled && <span {...spot.layerProps} />}
-      {/* Tone bar rides the card's rounded top edge. */}
+      {/* Square-edged: the card clips it to the right shape. */}
       <span
         className={cn(
-          "absolute inset-x-0 top-0 h-0.75 rounded-t-2xl opacity-80 transition-opacity group-hover/card:opacity-100",
+          "absolute inset-x-0 top-0 h-0.75 opacity-80 transition-opacity group-hover/card:opacity-100",
           TONE_BAR[tone],
         )}
       />

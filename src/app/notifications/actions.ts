@@ -23,6 +23,42 @@ export async function getUnreadNotificationCountAction(): Promise<number> {
   }
 }
 
+export interface NotificationFeed {
+  unread: number;
+  /** Newest first, capped — this drives a dropdown, not a full page. */
+  recent: NotificationSummary[];
+}
+
+/**
+ * One call for the topbar bell: the unread count and the newest few
+ * notifications behind it.
+ *
+ * The bell polls this, so it deliberately returns both in a single
+ * round trip rather than making the client fetch a count and then a
+ * list. Cap is small because the dropdown shows a preview and links to
+ * /notifications for the rest.
+ *
+ * Like the count above, this is subco-wide rather than a personal
+ * inbox — notification_read has no per-staff-user scoping, per
+ * notification.controller.ts's own comment.
+ */
+export async function getNotificationFeedAction(): Promise<NotificationFeed> {
+  try {
+    const all = await apiFetch<NotificationSummary[]>("/notifications");
+    const sorted = [...all].sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+    return {
+      unread: sorted.filter((n) => n.readAt === null).length,
+      recent: sorted.slice(0, 8),
+    };
+  } catch {
+    // A transient API hiccup shouldn't take the topbar down; the bell
+    // simply keeps its previous state until the next poll succeeds.
+    return { unread: 0, recent: [] };
+  }
+}
+
 export interface MarkReadResult {
   error?: string;
 }

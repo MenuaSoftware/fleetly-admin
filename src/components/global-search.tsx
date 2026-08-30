@@ -30,6 +30,7 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { loadSearchIndexAction, type SearchKind, type SearchRecord } from "@/app/search/actions";
+import { useRouteProgress } from "@/components/route-progress";
 
 const KIND_ICON: Record<SearchKind, React.ComponentType<{ className?: string }>> = {
   driver: Users,
@@ -94,6 +95,7 @@ const ACTIONS: NavTarget[] = [
  */
 export function GlobalSearch({ isGeneralAdmin }: { isGeneralAdmin: boolean }) {
   const router = useRouter();
+  const progress = useRouteProgress();
   const [open, setOpen] = useState(false);
   const [records, setRecords] = useState<SearchRecord[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -142,9 +144,12 @@ export function GlobalSearch({ isGeneralAdmin }: { isGeneralAdmin: boolean }) {
   const go = useCallback(
     (href: string) => {
       handleOpenChange(false);
+      // Started by hand: this navigation comes from router.push(), which
+      // the progress bar's click listener can't observe.
+      progress.start();
       router.push(href);
     },
-    [router, handleOpenChange],
+    [router, handleOpenChange, progress],
   );
 
   /**
