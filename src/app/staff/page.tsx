@@ -1,16 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Plus, ShieldCheck, UserCog } from "lucide-react";
+import { Plus, UserCog } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { StaffSummary, SubcontractorSummary } from "@/lib/types";
-import { StaffStatusToggle } from "@/components/staff-status-toggle";
-import { EmptyState, PageHeader, PageShell, StatusPill } from "@/components/page-kit";
-import { EntityCard, EntityGrid, InitialsAvatar } from "@/components/entity-grid";
-
-const ROLE_LABEL: Record<StaffSummary["role"], string> = {
-  dispatcher: "Dispatcher",
-  general_admin: "General admin",
-};
+import { PageHeader, PageShell } from "@/components/page-kit";
+import { StaffList, type StaffRow } from "@/components/staff-list";
 
 export default async function StaffPage() {
   const me = await getMe();
@@ -28,6 +22,11 @@ export default async function StaffPage() {
     apiFetch<SubcontractorSummary[]>("/subcontractors"),
   ]);
   const subcoName = new Map(subcontractors.map((s) => [s.id, s.name]));
+
+  const rows: StaffRow[] = staff.map((s) => ({
+    ...s,
+    subcoName: s.subcoId ? subcoName.get(s.subcoId) : undefined,
+  }));
 
   return (
     <PageShell>
@@ -47,50 +46,7 @@ export default async function StaffPage() {
         }
       />
 
-      {staff.length === 0 ? (
-        <div className="rounded-2xl border border-line bg-paper shadow-sm">
-          <EmptyState
-            icon={<UserCog className="h-5 w-5" />}
-            title="No staff yet"
-            description="Invite the first dispatcher so someone other than you can run the panel."
-            action={
-              <Link
-                href="/staff/invite"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-brand-ink"
-              >
-                <Plus className="h-4 w-4" />
-                Invite staff
-              </Link>
-            }
-          />
-        </div>
-      ) : (
-        <EntityGrid>
-          {staff.map((s, i) => {
-            const name = `${s.firstName} ${s.lastName}`;
-            const isSelf = s.id === me?.staffUserId;
-            return (
-              <EntityCard
-                key={s.id}
-                index={i}
-                href={`/staff/${s.id}`}
-                avatar={<InitialsAvatar name={name} tone={s.role === "general_admin" ? "viz-2" : "info"} />}
-                title={isSelf ? `${name} (you)` : name}
-                subtitle={
-                  s.subcoId ? (subcoName.get(s.subcoId) ?? "Unknown subcontractor") : "All subcontractors"
-                }
-                meta={
-                  <StatusPill tone={s.role === "general_admin" ? "viz-2" : "info"}>
-                    {s.role === "general_admin" && <ShieldCheck className="h-3 w-3" />}
-                    {ROLE_LABEL[s.role]}
-                  </StatusPill>
-                }
-                actions={<StaffStatusToggle staffId={s.id} status={s.status} isSelf={isSelf} />}
-              />
-            );
-          })}
-        </EntityGrid>
-      )}
+      <StaffList staff={rows} selfId={me?.staffUserId} />
     </PageShell>
   );
 }

@@ -1,13 +1,9 @@
 import Link from "next/link";
-import { Clock, Gauge, Plus, Route as RouteIcon, Smartphone, Users } from "lucide-react";
+import { Plus, Users } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
 import { DriverSummary, SubcontractorSummary, TripSummary } from "@/lib/types";
-import { IssueBadgeButton } from "@/components/issue-badge-button";
-import { DriverStatusToggle } from "@/components/driver-status-toggle";
-import { RevokeDeviceButton } from "@/components/revoke-device-button";
-import { EmptyState, PageHeader, PageShell } from "@/components/page-kit";
-import { RelativeTime } from "@/components/relative-time";
-import { CardMetrics, EntityCard, EntityGrid, InitialsAvatar } from "@/components/entity-grid";
+import { PageHeader, PageShell } from "@/components/page-kit";
+import { DriversList, type DriverRow } from "@/components/drivers-list";
 
 export default async function DriversPage() {
   const me = await getMe();
@@ -15,20 +11,18 @@ export default async function DriversPage() {
 
   const [drivers, subcontractors, trips] = await Promise.all([
     apiFetch<DriverSummary[]>("/drivers"),
-    // Only needed to label each row with its subcontractor when the
+    // Only needed to label each card with its subcontractor when the
     // viewer can see drivers across more than one — a dispatcher's own
     // list is already scoped to their one subco by RLS, so skip the
     // extra round trip for them.
     isGeneralAdmin ? apiFetch<SubcontractorSummary[]>("/subcontractors") : Promise.resolve([]),
     // One request for the whole page, grouped per driver below, rather
     // than a ?driverId= call per card. Cards carrying real figures are
-    // what makes this screen feel like a roster instead of a list of
-    // names; an N+1 to achieve it would not be worth it.
+    // what makes this screen a roster rather than a list of names; an
+    // N+1 to achieve it would not be worth it.
     apiFetch<TripSummary[]>("/trips").catch(() => [] as TripSummary[]),
   ]);
   const subcoName = new Map(subcontractors.map((s) => [s.id, s.name]));
-
-  const enrolled = drivers.filter((d) => d.approvedDeviceId).length;
 
   const stats = new Map<string, { trips: number; km: number; last: string | null }>();
   for (const t of trips) {
@@ -38,6 +32,14 @@ export default async function DriversPage() {
     if (!s.last || new Date(t.startedAt) > new Date(s.last)) s.last = t.startedAt;
     stats.set(t.driverId, s);
   }
+
+  const rows: DriverRow[] = drivers.map((d) => ({
+    ...d,
+    subcoName: subcoName.get(d.subcoId),
+    trips: stats.get(d.id)?.trips ?? 0,
+    km: stats.get(d.id)?.km ?? 0,
+    lastTrip: stats.get(d.id)?.last ?? null,
+  }));
 
 
   return (
@@ -58,87 +60,8 @@ export default async function DriversPage() {
         }
       />
 
-      {drivers.length > 0 && (
-        <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-ink-3">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
-            <Users className="h-3.5 w-3.5" />
-            <span className="font-mono text-ink">{drivers.length}</span> total
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1.5">
-            <Smartphone className="h-3.5 w-3.5" />
-            <span className="font-mono text-ink">{enrolled}</span> with a device
-          </span>
-        </div>
-      )}
 
-      {drivers.length === 0 ? (
-        <div className="rounded-2xl border border-line bg-paper shadow-sm">
-          <EmptyState
-            icon={<Users className="h-5 w-5" />}
-            title="No drivers yet"
-            description="Add the first driver to issue their badge and let them scan in."
-            action={
-              <Link
-                href="/drivers/new"
-                className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-brand-ink"
-              >
-                <Plus className="h-4 w-4" />
-                New driver
-              </Link>
-            }
-          />
-        </div>
-      ) : (
-        <EntityGrid>
-          {drivers.map((d, i) => {
-            const name = `${d.firstName} ${d.lastName}`;
-            return (
-              <EntityCard
-                key={d.id}
-                index={i}
-                href={`/drivers/${d.id}`}
-                avatar={<InitialsAvatar name={name} tone={d.status === "active" ? "brand" : "neutral"} />}
-                title={name}
-                subtitle={isGeneralAdmin ? (subcoName.get(d.subcoId) ?? "Unknown subcontractor") : undefined}
-                dimmed={d.status !== "active"}
-                meta={
-                  <CardMetrics
-                    items={[
-                      {
-                        label: "Trips",
-                        value: stats.get(d.id)?.trips ?? 0,
-                        icon: <RouteIcon className="h-3 w-3" />,
-                      },
-                      {
-                        label: "Distance",
-                        value: (stats.get(d.id)?.km ?? 0) > 0 ? `${stats.get(d.id)!.km.toLocaleString()}km` : "—",
-                        icon: <Gauge className="h-3 w-3" />,
-                        muted: (stats.get(d.id)?.km ?? 0) === 0,
-                      },
-                      {
-                        label: "Last trip",
-                        value: <RelativeTime iso={stats.get(d.id)?.last ?? null} />,
-                        icon: <Clock className="h-3 w-3" />,
-                        muted: !stats.get(d.id)?.last,
-                      },
-                    ]}
-                  />
-                }
-                actions={
-                  <>
-                    <DriverStatusToggle driverId={d.id} status={d.status} />
-                    {d.approvedDeviceId ? (
-                      <RevokeDeviceButton deviceId={d.approvedDeviceId} />
-                    ) : (
-                      <IssueBadgeButton driverId={d.id} />
-                    )}
-                  </>
-                }
-              />
-            );
-          })}
-        </EntityGrid>
-      )}
+      <DriversList drivers={rows} showSubco={isGeneralAdmin} />
     </PageShell>
   );
 }

@@ -1,8 +1,8 @@
 import { TriangleAlert } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { IncidentSummary } from "@/lib/types";
-import { EmptyState, PageHeader, PageShell } from "@/components/page-kit";
-import { IncidentTimeline } from "@/components/incident-timeline";
+import { PageHeader, PageShell } from "@/components/page-kit";
+import { IncidentsView } from "@/components/incidents-view";
 
 /**
  * incident.controller.ts's own comment: "No separate lifecycle, no
@@ -40,17 +40,7 @@ export default async function IncidentsPage() {
         </div>
       )}
 
-      {incidents.length === 0 ? (
-        <div className="rounded-2xl border border-line bg-paper shadow-sm">
-          <EmptyState
-            icon={<TriangleAlert className="h-5 w-5" />}
-            title="No incidents reported"
-            description="Drivers report breakdowns and new damage from the mobile app. Anything they send appears here."
-          />
-        </div>
-      ) : (
-        <IncidentTimeline incidents={incidents} />
-      )}
+      <IncidentsView incidents={incidents} />
     </PageShell>
   );
 }

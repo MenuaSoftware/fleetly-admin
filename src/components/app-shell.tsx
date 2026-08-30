@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ChevronsLeft, ChevronsRight, Menu, X } from "lucide-react";
 import { SidebarNav } from "@/components/sidebar-nav";
-import { SignOutButton } from "@/components/sign-out-button";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { GlobalSearch } from "@/components/global-search";
+import { AccountMenu } from "@/components/account-menu";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { drawerPanel, drawerScrim, springSoft } from "@/lib/motion";
@@ -141,25 +141,6 @@ export function AppShell({
 
           <SidebarNav isGeneralAdmin={isGeneralAdmin} collapsed={isCollapsed} />
 
-          <div className={cn("shrink-0 border-t border-line p-3", isCollapsed && "px-2")}>
-            {isCollapsed ? (
-              <div className="flex flex-col items-center gap-2">
-                <ThemeToggle collapsed />
-                <SignOutButton iconOnly />
-              </div>
-            ) : (
-              <>
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <p className="min-w-0 truncate text-xs text-ink-3" title={email}>
-                    {email}
-                  </p>
-                  <ThemeToggle />
-                </div>
-                <SignOutButton />
-              </>
-            )}
-          </div>
-
           <button
             type="button"
             onClick={toggleCollapsed}
@@ -204,13 +185,6 @@ export function AppShell({
                   </button>
                 </div>
                 <SidebarNav isGeneralAdmin={isGeneralAdmin} onNavigate={() => setMobileOpen(false)} />
-                <div className="shrink-0 border-t border-line p-3">
-                  <div className="mb-3 flex items-center justify-between gap-2">
-                    <p className="min-w-0 truncate text-xs text-ink-3">{email}</p>
-                    <ThemeToggle />
-                  </div>
-                  <SignOutButton />
-                </div>
               </motion.aside>
             </div>
           )}
@@ -227,10 +201,13 @@ export function AppShell({
             >
               <Menu className="h-5 w-5" />
             </button>
-            <div className="flex min-w-0 items-center gap-2">
-              <h1 className="min-w-0 truncate font-display text-base font-semibold text-ink">
-                {pageTitleFor(pathname)}
-              </h1>
+            <h1 className="min-w-0 shrink truncate font-display text-base font-semibold text-ink">
+              {pageTitleFor(pathname)}
+            </h1>
+
+            <div className="ml-auto flex items-center gap-2">
+              <GlobalSearch isGeneralAdmin={isGeneralAdmin} />
+              <AccountMenu email={email} isGeneralAdmin={isGeneralAdmin} />
             </div>
           </header>
 

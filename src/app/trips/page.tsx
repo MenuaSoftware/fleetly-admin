@@ -2,8 +2,9 @@ import Link from "next/link";
 import { Route as RouteIcon, Wrench } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { TripSummary } from "@/lib/types";
-import { PageHeader, PageShell, SectionCard } from "@/components/page-kit";
-import { TripFilterTabs, TripsTable, type TripState } from "@/components/trips-table";
+import { PageHeader, PageShell } from "@/components/page-kit";
+import { TripFilterTabs, type TripState } from "@/components/trips-table";
+import { TripsView } from "@/components/trips-view";
 
 /**
  * docs/product-brief.md's dispatcher panel requirements, close to
@@ -46,9 +47,7 @@ export default async function TripsPage({
         <TripFilterTabs active={activeFilter} />
       </div>
 
-      <SectionCard flush>
-        <TripsTable trips={trips} filter={activeFilter} />
-      </SectionCard>
+      <TripsView trips={trips} filter={activeFilter} />
     </PageShell>
   );
 }
