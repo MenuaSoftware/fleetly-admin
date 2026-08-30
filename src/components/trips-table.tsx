@@ -111,12 +111,18 @@ export function TripsTable({ trips, filter }: { trips: TripSummary[]; filter: Tr
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(i * 0.03, 0.3), duration: 0.28, ease: EASE_OUT }}
-              className="group border-b border-line last:border-0 transition-colors hover:bg-sunken"
+              className="group/row relative border-b border-line last:border-0 transition-colors hover:bg-sunken"
             >
-              <td className="px-5 py-3">
+              <td className="relative px-5 py-3">
+                {/* Accent rail on hover — gives a wide table row a clear
+                    left edge to track along, which a background tint
+                    alone doesn't provide at this density. */}
+                <span className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-brand transition-transform duration-200 group-hover/row:scale-y-100" />
                 <Link href={`/trips/${t.id}`} className="flex items-center gap-2.5">
                   {t.state === "active" && <LiveDot tone="ok" />}
-                  <span className="text-sm font-medium text-ink">{t.driverName ?? "Unknown driver"}</span>
+                  <span className="text-sm font-medium text-ink transition-colors group-hover/row:text-brand-strong">
+                    {t.driverName ?? "Unknown driver"}
+                  </span>
                 </Link>
               </td>
               <td className="px-5 py-3">
@@ -135,7 +141,7 @@ export function TripsTable({ trips, filter }: { trips: TripSummary[]; filter: Tr
                 <Link
                   href={`/trips/${t.id}`}
                   aria-label={`Open trip for ${t.driverName ?? "unknown driver"}`}
-                  className="inline-flex text-ink-3 transition-colors group-hover:text-brand"
+                  className="inline-flex text-ink-3 transition-colors group-hover/row:text-brand"
                 >
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>

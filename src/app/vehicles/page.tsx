@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { Plus, Truck } from "lucide-react";
+import { Clock, Gauge, Plus, Route as RouteIcon, Truck } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
-import { VehicleSummary, SubcontractorSummary } from "@/lib/types";
+import { VehicleSummary, SubcontractorSummary, TripSummary } from "@/lib/types";
 import { VehicleStatusToggle } from "@/components/vehicle-status-toggle";
 import { EmptyState, PageHeader, PageShell } from "@/components/page-kit";
-import { EntityCard, EntityGrid, VehicleAvatar } from "@/components/entity-grid";
+import { RelativeTime } from "@/components/relative-time";
+import { CardMetrics, EntityCard, EntityGrid, VehicleAvatar } from "@/components/entity-grid";
 
 const BODY_TYPE_LABEL: Record<VehicleSummary["bodyType"], string> = {
   van: "Van",
@@ -16,13 +17,27 @@ export default async function VehiclesPage() {
   const me = await getMe();
   const isGeneralAdmin = me?.role === "general_admin";
 
-  const [vehicles, subcontractors] = await Promise.all([
+  const [vehicles, subcontractors, trips] = await Promise.all([
     apiFetch<VehicleSummary[]>("/vehicles"),
     isGeneralAdmin ? apiFetch<SubcontractorSummary[]>("/subcontractors") : Promise.resolve([]),
+    // One request for the page, grouped per vehicle below — same
+    // reasoning as the drivers roster: real figures on each card, no
+    // per-card round trip to get them.
+    apiFetch<TripSummary[]>("/trips").catch(() => [] as TripSummary[]),
   ]);
   const subcoName = new Map(subcontractors.map((s) => [s.id, s.name]));
 
   const inService = vehicles.filter((v) => v.status === "active").length;
+
+  const stats = new Map<string, { trips: number; km: number; last: string | null }>();
+  for (const t of trips) {
+    const s = stats.get(t.vehicleId) ?? { trips: 0, km: 0, last: null };
+    s.trips += 1;
+    s.km += t.distance ?? 0;
+    if (!s.last || new Date(t.startedAt) > new Date(s.last)) s.last = t.startedAt;
+    stats.set(t.vehicleId, s);
+  }
+
 
   return (
     <PageShell>
@@ -88,6 +103,30 @@ export default async function VehiclesPage() {
                   : BODY_TYPE_LABEL[v.bodyType]
               }
               dimmed={v.status !== "active"}
+              meta={
+                <CardMetrics
+                  items={[
+                    {
+                      label: "Trips",
+                      value: stats.get(v.id)?.trips ?? 0,
+                      icon: <RouteIcon className="h-3 w-3" />,
+                    },
+                    {
+                      label: "Distance",
+                      value:
+                        (stats.get(v.id)?.km ?? 0) > 0 ? `${stats.get(v.id)!.km.toLocaleString()}km` : "—",
+                      icon: <Gauge className="h-3 w-3" />,
+                      muted: (stats.get(v.id)?.km ?? 0) === 0,
+                    },
+                    {
+                      label: "Last used",
+                      value: <RelativeTime iso={stats.get(v.id)?.last ?? null} />,
+                      icon: <Clock className="h-3 w-3" />,
+                      muted: !stats.get(v.id)?.last,
+                    },
+                  ]}
+                />
+              }
               actions={<VehicleStatusToggle vehicleId={v.id} status={v.status} />}
             />
           ))}

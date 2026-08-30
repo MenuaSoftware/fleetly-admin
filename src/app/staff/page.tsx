@@ -73,6 +73,7 @@ export default async function StaffPage() {
               <EntityCard
                 key={s.id}
                 index={i}
+                href={`/staff/${s.id}`}
                 avatar={<InitialsAvatar name={name} tone={s.role === "general_admin" ? "viz-2" : "info"} />}
                 title={isSelf ? `${name} (you)` : name}
                 subtitle={

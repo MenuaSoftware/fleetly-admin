@@ -1,28 +1,44 @@
 import Link from "next/link";
-import { Plus, Smartphone, Users } from "lucide-react";
+import { Clock, Gauge, Plus, Route as RouteIcon, Smartphone, Users } from "lucide-react";
 import { apiFetch, getMe } from "@/lib/api";
-import { DriverSummary, SubcontractorSummary } from "@/lib/types";
+import { DriverSummary, SubcontractorSummary, TripSummary } from "@/lib/types";
 import { IssueBadgeButton } from "@/components/issue-badge-button";
 import { DriverStatusToggle } from "@/components/driver-status-toggle";
 import { RevokeDeviceButton } from "@/components/revoke-device-button";
 import { EmptyState, PageHeader, PageShell } from "@/components/page-kit";
-import { EntityCard, EntityGrid, InitialsAvatar } from "@/components/entity-grid";
+import { RelativeTime } from "@/components/relative-time";
+import { CardMetrics, EntityCard, EntityGrid, InitialsAvatar } from "@/components/entity-grid";
 
 export default async function DriversPage() {
   const me = await getMe();
   const isGeneralAdmin = me?.role === "general_admin";
 
-  const [drivers, subcontractors] = await Promise.all([
+  const [drivers, subcontractors, trips] = await Promise.all([
     apiFetch<DriverSummary[]>("/drivers"),
     // Only needed to label each row with its subcontractor when the
     // viewer can see drivers across more than one — a dispatcher's own
     // list is already scoped to their one subco by RLS, so skip the
     // extra round trip for them.
     isGeneralAdmin ? apiFetch<SubcontractorSummary[]>("/subcontractors") : Promise.resolve([]),
+    // One request for the whole page, grouped per driver below, rather
+    // than a ?driverId= call per card. Cards carrying real figures are
+    // what makes this screen feel like a roster instead of a list of
+    // names; an N+1 to achieve it would not be worth it.
+    apiFetch<TripSummary[]>("/trips").catch(() => [] as TripSummary[]),
   ]);
   const subcoName = new Map(subcontractors.map((s) => [s.id, s.name]));
 
   const enrolled = drivers.filter((d) => d.approvedDeviceId).length;
+
+  const stats = new Map<string, { trips: number; km: number; last: string | null }>();
+  for (const t of trips) {
+    const s = stats.get(t.driverId) ?? { trips: 0, km: 0, last: null };
+    s.trips += 1;
+    s.km += t.distance ?? 0;
+    if (!s.last || new Date(t.startedAt) > new Date(s.last)) s.last = t.startedAt;
+    stats.set(t.driverId, s);
+  }
+
 
   return (
     <PageShell>
@@ -86,10 +102,27 @@ export default async function DriversPage() {
                 subtitle={isGeneralAdmin ? (subcoName.get(d.subcoId) ?? "Unknown subcontractor") : undefined}
                 dimmed={d.status !== "active"}
                 meta={
-                  <span className="inline-flex items-center gap-1.5">
-                    <Smartphone className="h-3.5 w-3.5" />
-                    {d.approvedDeviceId ? "Device enrolled" : "No device"}
-                  </span>
+                  <CardMetrics
+                    items={[
+                      {
+                        label: "Trips",
+                        value: stats.get(d.id)?.trips ?? 0,
+                        icon: <RouteIcon className="h-3 w-3" />,
+                      },
+                      {
+                        label: "Distance",
+                        value: (stats.get(d.id)?.km ?? 0) > 0 ? `${stats.get(d.id)!.km.toLocaleString()}km` : "—",
+                        icon: <Gauge className="h-3 w-3" />,
+                        muted: (stats.get(d.id)?.km ?? 0) === 0,
+                      },
+                      {
+                        label: "Last trip",
+                        value: <RelativeTime iso={stats.get(d.id)?.last ?? null} />,
+                        icon: <Clock className="h-3 w-3" />,
+                        muted: !stats.get(d.id)?.last,
+                      },
+                    ]}
+                  />
                 }
                 actions={
                   <>

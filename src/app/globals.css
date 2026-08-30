@@ -64,11 +64,31 @@
   --viz-5: #059669;
 
   /* --- elevation --- */
+  /* Elevation. Two things separate this from a default Tailwind
+     shadow: the colour is a tinted hue rather than pure black (grey
+     shadows on a warm-white surface read as dirt), and every level
+     stacks a tight contact shadow under a wide ambient one, which is
+     how real light behaves. The `inset` top highlight is the other
+     half — a 1px lit edge implies a light source above the card and is
+     most of what makes a surface feel raised rather than drawn. */
   --shadow-color: 240 20% 20%;
-  --shadow-card-sm: 0 1px 2px hsl(var(--shadow-color) / 0.06);
-  --shadow-card-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.10), 0 1px 2px hsl(var(--shadow-color) / 0.06);
-  --shadow-card-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.16), 0 2px 6px hsl(var(--shadow-color) / 0.08);
+  --edge-light: inset 0 1px 0 rgb(255 255 255 / 0.7);
+  --shadow-card-sm:
+    0 1px 2px hsl(var(--shadow-color) / 0.07),
+    var(--edge-light);
+  --shadow-card-md:
+    0 1px 2px hsl(var(--shadow-color) / 0.06),
+    0 6px 16px -6px hsl(var(--shadow-color) / 0.12),
+    var(--edge-light);
+  --shadow-card-lg:
+    0 1px 2px hsl(var(--shadow-color) / 0.06),
+    0 10px 20px -8px hsl(var(--shadow-color) / 0.14),
+    0 24px 48px -16px hsl(var(--shadow-color) / 0.18),
+    var(--edge-light);
   --shadow-glow: 0 0 0 1px rgb(var(--brand-glow) / 0.12), 0 8px 28px -6px rgb(var(--brand-glow) / 0.28);
+
+  /* Strength of the pointer-tracked highlight on interactive cards. */
+  --spotlight: rgb(var(--brand-glow) / 0.10);
 
   /* --- shell metrics --- */
   --sidebar-w: 16rem;
@@ -145,11 +165,26 @@
   --viz-4: #fbbf24;
   --viz-5: #34d399;
 
+  /* In dark mode the lit edge inverts: a white inset would look like a
+     scratch, so the highlight is a faint white at very low alpha and
+     the shadows go deeper, since there's less contrast to work with. */
   --shadow-color: 0 0% 0%;
-  --shadow-card-sm: 0 1px 2px hsl(var(--shadow-color) / 0.4);
-  --shadow-card-md: 0 4px 16px -4px hsl(var(--shadow-color) / 0.6), 0 1px 2px hsl(var(--shadow-color) / 0.4);
-  --shadow-card-lg: 0 12px 32px -8px hsl(var(--shadow-color) / 0.7), 0 2px 6px hsl(var(--shadow-color) / 0.5);
+  --edge-light: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --shadow-card-sm:
+    0 1px 2px hsl(var(--shadow-color) / 0.45),
+    var(--edge-light);
+  --shadow-card-md:
+    0 1px 2px hsl(var(--shadow-color) / 0.4),
+    0 6px 16px -6px hsl(var(--shadow-color) / 0.6),
+    var(--edge-light);
+  --shadow-card-lg:
+    0 1px 2px hsl(var(--shadow-color) / 0.4),
+    0 10px 20px -8px hsl(var(--shadow-color) / 0.65),
+    0 24px 48px -16px hsl(var(--shadow-color) / 0.75),
+    var(--edge-light);
   --shadow-glow: 0 0 0 1px rgb(var(--brand-glow) / 0.22), 0 8px 30px -6px rgb(var(--brand-glow) / 0.35);
+
+  --spotlight: rgb(var(--brand-glow) / 0.16);
 }
 
 @theme inline {
@@ -331,6 +366,38 @@ body {
   background: color-mix(in oklab, var(--paper) 82%, transparent);
   backdrop-filter: blur(12px) saturate(1.4);
   -webkit-backdrop-filter: blur(12px) saturate(1.4);
+}
+
+/*
+  Pointer-tracked highlight for interactive cards. The card sets
+  --spot-x/--spot-y on pointermove (see spotlight-card.tsx, which writes
+  them straight to the node rather than through React state — per-frame
+  re-renders would make a grid of these stutter).
+
+  Only `opacity` is transitioned, so the reveal composites; the gradient
+  itself repaints within the card's own layer while the pointer is over
+  it, which is why this is applied to cards rather than to every surface.
+*/
+@utility spotlight {
+  position: relative;
+  isolation: isolate;
+}
+@utility spotlight-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(
+    16rem circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    var(--spotlight),
+    transparent 65%
+  );
+}
+.group\/card:hover .spotlight-layer,
+.spotlight:hover > .spotlight-layer {
+  opacity: 1;
 }
 
 /* Honour the OS motion setting globally. Every entrance animation in

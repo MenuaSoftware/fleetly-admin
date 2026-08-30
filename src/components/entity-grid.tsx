@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowUpRight, Car, Truck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSpotlight } from "@/components/spotlight-card";
 import { EASE_OUT } from "@/lib/motion";
 import { StatusPill, type Tone } from "@/components/page-kit";
 
@@ -48,50 +49,104 @@ export function EntityCard({
   /** Detail page for this record, if it has one. */
   href?: string;
 }) {
+  const spot = useSpotlight();
+
   const identity = (
     <div className="flex items-start gap-3">
       {avatar}
       <div className="min-w-0 flex-1">
-        <p className={cn("truncate text-sm font-semibold text-ink", titleMono && "font-mono")}>{title}</p>
+        <p
+          className={cn(
+            "truncate font-semibold text-ink transition-colors group-hover/card:text-brand-strong",
+            titleMono ? "font-mono text-[0.95rem]" : "font-display text-[0.975rem]",
+          )}
+        >
+          {title}
+        </p>
         {subtitle && <p className="mt-0.5 truncate text-xs text-ink-3">{subtitle}</p>}
       </div>
       {statusLabel && <StatusPill tone={statusTone}>{statusLabel}</StatusPill>}
       {href && (
-        <ArrowUpRight className="h-4 w-4 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
+        <ArrowUpRight className="h-4 w-4 shrink-0 text-ink-3 transition-all group-hover/card:-translate-y-0.5 group-hover/card:translate-x-0.5 group-hover/card:text-brand" />
       )}
     </div>
   );
 
   return (
     <motion.article
+      onPointerMove={spot.onPointerMove}
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
+      whileHover={href ? { y: -3 } : undefined}
       transition={{ delay: Math.min(index * 0.035, 0.35), duration: 0.3, ease: EASE_OUT }}
       className={cn(
-        "group flex flex-col rounded-2xl border border-line bg-paper p-4 shadow-sm transition-shadow hover:shadow-md",
+        "spotlight group/card relative flex flex-col rounded-2xl border border-line bg-paper p-4 shadow-sm",
+        "transition-[box-shadow,border-color] duration-200 hover:border-line-2 hover:shadow-lg",
         // Deactivated records stay legible rather than being greyed to
         // the point of unreadability — they're still actionable.
         dimmed && "border-dashed",
       )}
     >
+      {spot.enabled && <span {...spot.layerProps} />}
+
       {/* Only the identity block links through. The card can't be one
           big anchor: the actions row holds real buttons, and nesting
           interactive controls inside a link is invalid and makes them
           fight for the same click. */}
       {href ? (
-        <Link href={href} className="rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand/50">
+        <Link
+          href={href}
+          className="relative rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+        >
           {identity}
         </Link>
       ) : (
         identity
       )}
 
-      {meta && <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink-3">{meta}</div>}
+      {meta && (
+        <div className="relative mt-3 flex flex-wrap items-center gap-2 text-xs text-ink-3">{meta}</div>
+      )}
 
       {actions && (
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-3">{actions}</div>
+        <div className="relative mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-3">
+          {actions}
+        </div>
       )}
     </motion.article>
+  );
+}
+
+/**
+ * Compact figures for a card's `meta` slot. Roster cards were carrying
+ * only labels ("No device") and read as thin because of it — a card
+ * with real numbers on it feels substantial in a way no amount of
+ * shadow or gradient achieves.
+ */
+export function CardMetrics({
+  items,
+}: {
+  items: { label: string; value: React.ReactNode; icon?: React.ReactNode; muted?: boolean }[];
+}) {
+  return (
+    <div className="grid w-full grid-cols-3 gap-2">
+      {items.map((m) => (
+        <div key={m.label} className="min-w-0">
+          <p className="flex items-center gap-1 text-[0.65rem] tracking-wide text-ink-3 uppercase">
+            {m.icon}
+            <span className="truncate">{m.label}</span>
+          </p>
+          <p
+            className={cn(
+              "mt-0.5 truncate font-mono text-sm font-semibold",
+              m.muted ? "text-ink-3" : "text-ink",
+            )}
+          >
+            {m.value}
+          </p>
+        </div>
+      ))}
+    </div>
   );
 }
 

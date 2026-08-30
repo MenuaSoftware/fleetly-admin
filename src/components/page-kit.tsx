@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { springSoft } from "@/lib/motion";
 import { AnimatedNumber } from "@/components/motion-primitives";
+import { useSpotlight } from "@/components/spotlight-card";
 
 /**
  * The building blocks every screen composes from. Kept deliberately
@@ -147,33 +148,49 @@ export function StatTile({
   className?: string;
 }) {
   const reduced = useReducedMotion();
+  const spot = useSpotlight();
 
   const body = (
     <motion.div
-      whileHover={reduced || !href ? undefined : { scale: 1.015 }}
+      onPointerMove={spot.onPointerMove}
+      whileHover={reduced || !href ? undefined : { y: -3 }}
       whileTap={reduced || !href ? undefined : { scale: 0.995 }}
       transition={springSoft}
       className={cn(
-        "group relative h-full overflow-hidden rounded-2xl border border-line bg-paper p-4 shadow-sm",
-        href && "transition-shadow hover:shadow-md",
+        "spotlight group/card relative h-full rounded-2xl border border-line bg-paper p-4 shadow-sm",
+        href && "transition-[box-shadow,border-color] hover:border-line-2 hover:shadow-lg",
         className,
       )}
     >
-      <span className={cn("absolute inset-x-0 top-0 h-0.5 opacity-70", TONE_BAR[tone])} />
-      <div className="mb-3 flex items-start justify-between gap-2">
+      {spot.enabled && <span {...spot.layerProps} />}
+      {/* Tone bar rides the card's rounded top edge. */}
+      <span
+        className={cn(
+          "absolute inset-x-0 top-0 h-0.75 rounded-t-2xl opacity-80 transition-opacity group-hover/card:opacity-100",
+          TONE_BAR[tone],
+        )}
+      />
+      <div className="relative mb-3 flex items-start justify-between gap-2">
         {icon && (
-          <span className={cn("flex h-9 w-9 items-center justify-center rounded-xl", TONE_SURFACE[tone])}>
+          <span
+            className={cn(
+              "flex h-9 w-9 items-center justify-center rounded-xl transition-transform duration-200 group-hover/card:scale-105",
+              TONE_SURFACE[tone],
+            )}
+          >
             {icon}
           </span>
         )}
-        {hint && <span className="font-mono text-[0.65rem] text-ink-3">{hint}</span>}
+        {hint && (
+          <span className="font-mono text-[0.65rem] tracking-wide text-ink-3 uppercase">{hint}</span>
+        )}
       </div>
       <AnimatedNumber
         value={value}
         data-testid="stat-value"
-        className="block font-mono text-[1.75rem] leading-none font-semibold text-ink"
+        className="relative block font-mono text-[1.85rem] leading-none font-semibold tracking-tight text-ink"
       />
-      <p className="mt-1.5 text-xs text-ink-2">{label}</p>
+      <p className="relative mt-1.5 text-xs text-ink-2">{label}</p>
     </motion.div>
   );
 

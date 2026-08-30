@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import { ArrowUpRight, Building2 } from "lucide-react";
+
 import { useState } from "react";
 import { createSubcontractorAction, renameSubcontractorAction } from "@/app/subcontractors/actions";
 import { SubcontractorSummary } from "@/lib/types";
@@ -97,12 +100,19 @@ export function SubcontractorManager({ subcontractors: initial }: { subcontracto
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-medium text-ink">{s.name}</p>
+                  <div className="group/row flex items-center justify-between gap-3">
+                    <Link
+                      href={`/subcontractors/${s.id}`}
+                      className="flex min-w-0 flex-1 items-center gap-2 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+                    >
+                      <Building2 className="h-4 w-4 shrink-0 text-ink-3 transition-colors group-hover/row:text-brand" />
+                      <span className="truncate text-sm font-medium text-ink">{s.name}</span>
+                      <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-ink-3 opacity-0 transition-opacity group-hover/row:opacity-100" />
+                    </Link>
                     <button
                       type="button"
                       onClick={() => startEdit(s)}
-                      className="shrink-0 rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-wash"
+                      className="shrink-0 rounded-lg border border-line-2 px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-sunken hover:text-ink"
                     >
                       Rename
                     </button>
