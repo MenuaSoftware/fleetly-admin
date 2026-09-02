@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { issueBadgeAction } from "@/app/drivers/actions";
+import { QrCodePanel } from "@/components/qr-code-panel";
 
 type State =
   | { kind: "idle" }
   | { kind: "loading" }
-  | { kind: "issued"; token: string }
+  | { kind: "issued"; token: string; qrSvg: string }
   | { kind: "error"; message: string };
 
 export function IssueBadgeButton({ driverId }: { driverId: string }) {
@@ -15,26 +16,27 @@ export function IssueBadgeButton({ driverId }: { driverId: string }) {
   async function handleIssue() {
     setState({ kind: "loading" });
     const result = await issueBadgeAction(driverId);
-    if (result.error || !result.token) {
+    if (result.error || !result.token || !result.qrSvg) {
       setState({ kind: "error", message: result.error ?? "Could not issue a badge." });
       return;
     }
-    setState({ kind: "issued", token: result.token });
+    setState({ kind: "issued", token: result.token, qrSvg: result.qrSvg });
   }
 
   if (state.kind === "issued") {
     return (
-      <div className="flex items-center gap-2">
-        <code className="rounded-lg bg-wash px-2 py-1 font-mono text-xs text-ink">
-          {state.token}
-        </code>
-        <button
-          type="button"
-          onClick={() => navigator.clipboard.writeText(state.token)}
-          className="text-xs font-medium text-brand hover:text-brand-strong"
-        >
-          Copy
-        </button>
+      <div className="rounded-xl border border-line bg-paper">
+        {/*
+          Shown exactly once — this is the only moment the raw token
+          exists outside the physical badge (the API stores only its
+          hash). Printing it now is the whole point of issuing it.
+        */}
+        <QrCodePanel
+          svg={state.qrSvg}
+          title="Fleetly badge"
+          caption="Print this on the badge. The driver scans it to set up their phone — it is not shown again."
+          payload={state.token}
+        />
       </div>
     );
   }

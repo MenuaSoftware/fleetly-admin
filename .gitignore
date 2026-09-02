@@ -12,6 +12,10 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # next.js
 /.next/
@@ -43,6 +47,10 @@ next-env.d.ts
 
 # Claude Code — personal/local only, never shared team config
 .claude/settings.local.json
+
+# Local design-hook cache. The reasoned suppressions in
+# .impeccable/config.json are shared and stay tracked.
+.impeccable/hook.cache.json
 
 # Python bytecode from the ui-ux-pro-max skill scripts
 __pycache__/

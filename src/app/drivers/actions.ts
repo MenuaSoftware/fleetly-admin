@@ -3,10 +3,17 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { apiFetch, ApiError } from "@/lib/api";
+import { badgeQrPayload, renderQrSvg } from "@/lib/qr-payload";
 
 export interface IssueBadgeResult {
   badgeId?: string;
   token?: string;
+  /**
+   * The token rendered as a scannable QR, generated here rather than in
+   * the browser so the QR encoder stays out of the client bundle. Same
+   * one-time-only lifetime as `token` itself — it encodes it.
+   */
+  qrSvg?: string;
   error?: string;
 }
 
@@ -23,7 +30,7 @@ export async function issueBadgeAction(driverId: string): Promise<IssueBadgeResu
       `/drivers/${driverId}/badge`,
       { method: "POST" },
     );
-    return result;
+    return { ...result, qrSvg: await renderQrSvg(badgeQrPayload(result.token)) };
   } catch (err) {
     const message = err instanceof ApiError ? err.message : "Could not issue a badge.";
     return { error: message };
