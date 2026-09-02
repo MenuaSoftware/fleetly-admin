@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/components/qr-code-panel.tsx"
+        ],
+        "createdAt": "2026-09-02T13:38:06.309Z",
+        "reason": "Claude: not a side-tab — four 14px L-shaped corner brackets (two adjacent borders each) framing a printable QR, echoing the mobile scanner reticle; verified in captured light/dark screenshots"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/qr-code-panel.tsx"
+        ],
+        "createdAt": "2026-09-02T13:38:06.374Z",
+        "reason": "Claude: corner brackets intentionally match the code card's corner radius rather than clashing with it; verified in captured light/dark screenshots"
+      }
+    ]
+  }
+}
