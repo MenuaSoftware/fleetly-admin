@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { FileText, Gauge, Route as RouteIcon, TriangleAlert } from "lucide-react";
+import { FileText, Gauge, QrCode, Route as RouteIcon, TriangleAlert } from "lucide-react";
 import { apiFetch, ApiError, getMe } from "@/lib/api";
+import { renderQrSvg, vehicleQrPayload } from "@/lib/qr-payload";
+import { QrCodePanel } from "@/components/qr-code-panel";
 import type {
   DamageSummary,
   DocumentSummary,
@@ -60,6 +62,8 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
       ? apiFetch<SubcontractorSummary[]>("/subcontractors").catch(() => [])
       : Promise.resolve([]),
   ]);
+
+  const vehicleQrSvg = await renderQrSvg(vehicleQrPayload(vehicle.id));
 
   const itsIncidents = incidents.filter((i) => i.vehicleId === id);
   const subcoName = subcontractors.find((s) => s.id === vehicle.subcoId)?.name;
@@ -136,6 +140,25 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
           ) : (
             <DamageList vehicleId={vehicle.id} damage={damage} />
           )}
+        </SectionCard>
+
+        {/*
+          The scannable tag for this vehicle. Print it, stick it in the
+          cab, and a driver starting a trip scans it instead of typing a
+          uuid off a screen — see fleetly-mobile's start-trip-view.
+        */}
+        <SectionCard
+          title="Vehicle QR code"
+          description="Print and fix inside the vehicle"
+          icon={<QrCode className="h-4 w-4" />}
+          flush
+        >
+          <QrCodePanel
+            svg={vehicleQrSvg}
+            title={vehicle.plate}
+            caption="A driver scans this to start a trip on this vehicle."
+            payload={vehicle.id}
+          />
         </SectionCard>
 
         <SectionCard
